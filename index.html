@@ -46,7 +46,7 @@
     <div class="content">
       <div id="paper-links">
         <a href="https://arxiv.org/abs/2007.00644" target="_blank"><span id="paper-links-paper">Pre-print</span></a>
-        <a href="https://github.com/modestyachts/imagenet-testbed" target="_blank"><span id="paper-links-results">Testbed Repo</span></a>
+        <a href="https://github.com/modestyachts/imagenet-testbed" target="_blank"><span id="paper-links-results">Testbed Repository</span></a>
         <a href="http://imagenet-testbed-2088145982.us-west-2.elb.amazonaws.com/" target="_blank"><span id="paper-links-code">Interactive Website</span></a>
       </div>
     </div>
@@ -62,15 +62,22 @@
     </div>
   </section>
 
-  <div style="line-height:120%;">
+  <div style="line-height:150%;">
     <br>
   </div>
   <section id="teaser">
     <figure class="text-center">
-      <img id="teaser-img" class="figure-img img-fluid" src="web_assets/grid.jpg" style="width:50%">
+      <a href="web_assets/grid.png" target="_blank" style="color:none;border-bottom:none;background:none">
+      <img id="teaser-img" class="figure-img img-fluid" src="web_assets/grid.jpg" style="width:40%">
+      </a>
+      &nbsp; &nbsp; &nbsp; &nbsp;
+      <a href="web_assets/plots.png" target="_blank" style="color:none;border-bottom:none;background:none">
+      <img id="teaser-img" class="figure-img img-fluid" src="web_assets/plots.jpg" style="width:50%">
+      </a>
       <figcaption class="figure-caption text-center" id="teaser-caption">
-      An overview of our testbed. Each cell represents a model evaluation on a distribution shift. <br /> 
-      Check out our Interactive Website to play around with this data.
+      (Left) An overview of our testbed. Each cell represents a model evaluation on a distribution shift.<br />
+      (Right) Testing robustness by plotting models in the testbed against a few natural distribution shifts.<br />
+      Check out our <a href="http://imagenet-testbed-2088145982.us-west-2.elb.amazonaws.com/" target="_blank">interactive website</a> to play with the data and <a href="https://arxiv.org/abs/2007.00644" target="_blank">our paper</a> to read our analysis. 
       </figcaption>
     </figure>
   </section>
@@ -81,40 +88,35 @@
   <section id="abstract">
     <h4 class="heading"><span>Testbed</span></h4>
     <div class="content">
-      We have released our Testbed Repo, which comes with all our code and data, to allow researchers to use our framework to develop and evaluate new models and distribution shifts. To this end, we have made it very simple to add new models with a few lines of code (resnet50 example):
-      <br> <font size="-0"><pre><code>
-from torchvision.models import resnet50
+      We have released our <a href="https://github.com/modestyachts/imagenet-testbed" target="_blank">testbed</a>, which comes with all our code and data, to allow researchers to use our framework to develop and evaluate new models and distribution shifts. To this end, we have made it very simple to add new models with a few lines of code (resnet50 example):
+      <p></p> <font size="-0"><pre><code>from torchvision.models import resnet50
 from registry import registry
 from models.model_base import Model, StandardTransform, StandardNormalization
 
 registry.add_model(
     Model(
         name = 'resnet50',
-        arch = 'resnet50',
         transform = StandardTransform(img_resize_size=256, img_crop_size=224),
         normalization = StandardNormalization(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
         classifier_loader = lambda: resnet50(pretrained=True),
         eval_batch_size = 256,
     )
 )
-</code></pre></font>
-      It is similarly easy to add new datasets; check the repo for more information). <br>
+</code></pre></font>It is similarly easy to add new datasets; check the repository for more information. <br>
       Running evaluations is also simple (either with existing models/datasets or ones you've added):
-      <br> <font size="-0"><pre><code>
-python eval.py --gpus 0 1 --models resnet50 densenet121 --eval-settings val imagenetv2-matched-frequency
+      <p></p> <font size="-0"><pre><code>python eval.py --gpus 0 1 --models resnet50 densenet121 --eval-settings val imagenetv2-matched-frequency
 </code></pre></font>
       Lastly, all our plotting code to visualize results is available. We hope you find these tools useful!
     </div>
   </section>
 
-  <div style="line-height:200%;">
+  <div style="line-height:150%;">
     <br>
   </div>
   <section id="abstract">
     <h4 class="heading"><span>Citation</span></h4>
     <div class="content">
-      <font size="-0"><pre><code>
-@misc{taori2020measuring,
+      <font size="-1"><pre><code>@misc{taori2020measuring,
     title={Measuring Robustness to Natural Distribution Shifts in Image Classification},
     author={Rohan Taori and Achal Dave and Vaishaal Shankar and Nicholas Carlini and Benjamin Recht and Ludwig Schmidt},
     year={2020},
