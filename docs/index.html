@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-173046581-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-173046581-1');
+  </script>
+
+  <!-- Required meta tags -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="assets/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/index.css">
+
+  <title>ImageNet Testbed</title>
+</head>
+
+<body>
+  <section id="header">
+    <h1 id="title">
+      Measuring Robustness to Natural <br /> Distribution Shifts in Image Classification
+    </h1>
+  </section>
+
+  <h2 id="authors" class="text-muted">
+    <ul>
+      <li><a href="https://rohantaori.com/" target="_blank">Rohan Taori</a></li>
+      <li><a href="http://achaldave.com/" target="_blank">Achal Dave</a></li>
+      <li><a href="http://vaishaal.com/" target="_blank">Vaishaal Shankar</a></li>
+      <li><a href="https://nicholas.carlini.com/" target="_blank">Nicholas Carlini</a></li>
+      <li><a href="https://people.eecs.berkeley.edu/~brecht/" target="_blank">Ben Recht</a></li>
+      <li><a href="https://people.csail.mit.edu/ludwigs/" target="_blank">Ludwig Schmidt</a></li>
+    </ul>
+  </h2>
+
+  <div style="line-height:50%;">
+    <br>
+  </div>
+  <section id="downloads">
+    <div class="content">
+      <div id="paper-links">
+        <a href="https://arxiv.org/abs/2007.00644" target="_blank"><span id="paper-links-paper">Pre-print</span></a>
+        <a href="https://github.com/modestyachts/imagenet-testbed" target="_blank"><span id="paper-links-results">Testbed Repo</span></a>
+        <a href="http://imagenet-testbed-2088145982.us-west-2.elb.amazonaws.com/" target="_blank"><span id="paper-links-code">Interactive Website</span></a>
+      </div>
+    </div>
+  </section>
+  <div style="line-height:200%;">
+    <br>
+  </div>
+
+  <section id="abstract">
+    <h4 class="heading"><span>Abstract</span></h4>
+    <div class="content">
+      We study how robust current ImageNet models are to distribution shifts arising from natural variations in datasets. Most research on robustness focuses on synthetic image perturbations (noise, simulated weather artifacts, adversarial examples, etc.), which leaves open how robustness on synthetic distribution shift relates to distribution shift arising in real data. Informed by an evaluation of 196 ImageNet models in 211 different test conditions, we find that there is little to no transfer of robustness from current synthetic to natural distribution shift. Moreover, most current techniques provide no robustness to the natural distribution shifts in our testbed. The main exception is training on larger datasets, which in some cases offers small gains in robustness. Our results indicate that distribution shifts arising in real data are currently an open research problem.
+    </div>
+  </section>
+
+  <div style="line-height:120%;">
+    <br>
+  </div>
+  <section id="teaser">
+    <figure class="text-center">
+      <img id="teaser-img" class="figure-img img-fluid" src="assets/grid.jpg" style="width:50%">
+      <figcaption class="figure-caption text-center" id="teaser-caption">
+      An overview of our testbed. Each cell represents a model evaluation on a distribution shift. <br /> 
+      Check out our Interactive Website to play around with this data.
+      </figcaption>
+    </figure>
+  </section>
+
+  <div style="line-height:100%;">
+    <br>
+  </div>
+  <section id="abstract">
+    <h4 class="heading"><span>Testbed</span></h4>
+    <div class="content">
+      We have released our Testbed Repo, which comes with all our code and data, to allow researchers to use our framework to develop and evaluate new models and distribution shifts. To this end, we have made it very simple to add new models with a few lines of code (resnet50 example):
+      <br> <font size="-0"><pre><code>
+from torchvision.models import resnet50
+from registry import registry
+from models.model_base import Model, StandardTransform, StandardNormalization
+
+registry.add_model(
+    Model(
+        name = 'resnet50',
+        arch = 'resnet50',
+        transform = StandardTransform(img_resize_size=256, img_crop_size=224),
+        normalization = StandardNormalization(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+        classifier_loader = lambda: resnet50(pretrained=True),
+        eval_batch_size = 256,
+    )
+)
+</code></pre></font>
+      It is similarly easy to add new datasets; check the repo for more information). <br>
+      Running evaluations is also simple (either with existing models/datasets or ones you've added):
+      <br> <font size="-0"><pre><code>
+python eval.py --gpus 0 1 --models resnet50 densenet121 --eval-settings val imagenetv2-matched-frequency
+</code></pre></font>
+      Lastly, all our plotting code to visualize results is available. We hope you find these tools useful!
+    </div>
+  </section>
+
+  <div style="line-height:200%;">
+    <br>
+  </div>
+  <section id="abstract">
+    <h4 class="heading"><span>Citation</span></h4>
+    <div class="content">
+      <font size="-0"><pre><code>
+@misc{taori2020measuring,
+    title={Measuring Robustness to Natural Distribution Shifts in Image Classification},
+    author={Rohan Taori and Achal Dave and Vaishaal Shankar and Nicholas Carlini and Benjamin Recht and Ludwig Schmidt},
+    year={2020},
+    url={https://arxiv.org/abs/2007.00644},
+}
+</code></pre></font>
+    </div>
+  </section>
+
+  <div style="line-height:300%;">
+    <br>
+  </div>
+
+</body></html>

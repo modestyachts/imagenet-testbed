@@ -1,0 +1,90 @@
+#header {
+    padding: 10px 0px;
+    max-width: 100%;
+}
+#title {
+    text-align: center;
+    font-weight: 300;
+    font-size: 2.5rem;
+    color: rgb(43, 0, 83)!important;
+}
+
+#authors {
+    text-align: center;
+    font-weight: 300;
+    font-size: 1.2rem;
+}
+#authors li {
+    display: inline-block;
+}
+#authors li a {
+    color: rgba(43, 0, 83, 0.5)!important;
+    margin-right: 10px;
+    border-bottom: solid 1px black;
+}
+#authors li a:hover {
+    color: black!important;
+    text-decoration: none;
+}
+
+#teaser {
+    padding-top: 0;
+}
+
+section .heading {
+    text-align: center;
+    font-weight: 300;
+}
+
+section .heading span {
+    color: rgb(43, 0, 83);
+    padding: 0px 10px 2px 10px;
+}
+
+section {
+    padding: 0px 20px 0px 20px;
+    max-width: 820px;
+    margin: 0 1%;
+    margin: 0 auto;
+    font-size: 1.2rem;
+}
+
+#abstract .content {
+    text-align: justify;
+    font-size: 1.1rem;
+}
+
+pre.inline {
+    display: inline;
+}
+
+#paper-thumbnail {
+    width: 100%;
+}
+
+#downloads {
+    text-align: center;
+}
+
+a {
+    border-bottom: solid 1px rgb(43, 0, 83);
+    color: rgb(43, 0, 83);
+}
+a:hover {
+    background: rgba(43, 0, 83, 0.1);
+    text-decoration: none;
+}
+
+#paper-links a {
+    display: inline-block;
+    padding: 10px;
+    margin: 0 5px;
+}
+
+br {
+    line-height: 50%;
+}
+
+pre {
+    display: block;
+}
