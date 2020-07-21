@@ -1,8 +1,8 @@
 # ImageNet Testbed
-This repo a large testbed to examine the robustness of various ImageNet classifers on many synthetic and natural distribution shifts. 
+This repository a large testbed to examine the robustness of various ImageNet classifers on many synthetic and natural distribution shifts. 
 It is associated with the paper [Measuring Robustness to Natural Distribution Shifts in Image Classification](https://modestyachts.github.io/imagenet-testbed/).
 
-This repo contains all the evaluation code and data used to generate the results from the paper and website. It currently supports 196 ImageNet models and 211 different evaluation settings. **More importantly, this repo is designed to be extremely simple to add additional models and datasets, so that future researchers may leverage this existing evalation framework to compare and evaluate their progress.**
+This testbed currently supports 196 ImageNet models and 211 different evaluation settings. All the evaluation code and data used to generate the results from the paper and website can be found here. **More importantly, this repository is designed to be extremely simple to add additional models and datasets, so that future researchers may leverage this existing evalation framework to compare and evaluate their progress.**
 
 
 ## Installation
@@ -38,7 +38,8 @@ cd plotting && python paper_appendix_grid.py
 ```
 The `plotting` directory contains the code used to generate all the plots in the paper. In particular, running `bash paper_plots.sh` will generate all the main plots in the main text of the paper.
 
-To see a full list of models or eval settings available to query for results, run `python db.py --list-models-db` or `python db.py --list-eval-settings-db`. This list is slightly longer than the registry list as some models as unavailable as part of this repo at this time.
+To see a full list of models or eval settings available to query for results, run `python db.py --list-models-db` or `python db.py --list-eval-settings-db`. This list is slightly longer than the registry list as some models as unavailable as part of the testbed at this time.
+
 
 ## Adding Custom Models
 Adding a new model to the testbed only requires a few lines of code. Define a new file `src/models/new_model.py` and add your model to the `registry`. For example, here is the definition of a `resnet50`:
