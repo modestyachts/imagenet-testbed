@@ -74,6 +74,9 @@ def generate_xy_plots(output_dir, output_file_dir):
         if 'augmix' in name:
             cite = 'hendrycks2019augmix'
             url = 'https://github.com/google-research/augmix'
+        if 'deepaugment' in name:
+            cite = 'hendrycks2020faces'
+            url = 'https://github.com/hendrycks/imagenet-r'
         if 'vtab' in name:
             cite = 'zhai2019visual'
             url = 'https://tfhub.dev/s?publisher=vtab'
@@ -156,6 +159,9 @@ def generate_xy_plots(output_dir, output_file_dir):
         if 'mixup' in name:
             cite = 'zhang2017mixup'
             url = 'https://github.com/clovaai/CutMix-PyTorch'
+        if 'BiT' in name:
+            cite = 'alex2019big'
+            url = 'https://github.com/google-research/big_transfer'
 
         if not ('subsample' in name or 'aws' in name or '100percent' in name):
             cite = f" \\citep{{{cite}}}"

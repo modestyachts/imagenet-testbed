@@ -23,7 +23,8 @@ model_params = {
                                             'img_crop_size': 224,
                                             'img_resize_size': 256,
                                             'mean': [0.485, 0.456, 0.406],
-                                            'std': [0.229, 0.224, 0.225]},
+                                            'std': [0.229, 0.224, 0.225],
+                                            'adversarial_batch_size': 1},
 }
 
 

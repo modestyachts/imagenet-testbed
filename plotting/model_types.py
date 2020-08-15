@@ -9,6 +9,11 @@ class ModelTypes(Enum):
 
 
 model_types_map = {
+'BiT-M-R50x1-ILSVRC2012': ModelTypes.MORE_DATA,
+'BiT-M-R50x3-ILSVRC2012': ModelTypes.MORE_DATA,
+'BiT-M-R101x1-ILSVRC2012': ModelTypes.MORE_DATA,
+'BiT-M-R101x3-ILSVRC2012': ModelTypes.MORE_DATA,
+'BiT-M-R152x4-ILSVRC2012': ModelTypes.MORE_DATA,
 'FixPNASNet': ModelTypes.STANDARD,
 'FixResNeXt101_32x48d': ModelTypes.MORE_DATA,
 'FixResNeXt101_32x48d_v2': ModelTypes.MORE_DATA,

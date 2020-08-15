@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <base target="_blank">
+  
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-173046581-1"></script>
   <script>
@@ -30,12 +32,12 @@
 
   <h2 id="authors" class="text-muted">
     <ul>
-      <li><a href="https://rohantaori.com/" target="_blank">Rohan Taori</a></li>
-      <li><a href="http://achaldave.com/" target="_blank">Achal Dave</a></li>
-      <li><a href="http://vaishaal.com/" target="_blank">Vaishaal Shankar</a></li>
-      <li><a href="https://nicholas.carlini.com/" target="_blank">Nicholas Carlini</a></li>
-      <li><a href="https://people.eecs.berkeley.edu/~brecht/" target="_blank">Ben Recht</a></li>
-      <li><a href="https://people.csail.mit.edu/ludwigs/" target="_blank">Ludwig Schmidt</a></li>
+      <li><a href="https://rohantaori.com/">Rohan Taori</a></li>
+      <li><a href="http://achaldave.com/">Achal Dave</a></li>
+      <li><a href="http://vaishaal.com/">Vaishaal Shankar</a></li>
+      <li><a href="https://nicholas.carlini.com/">Nicholas Carlini</a></li>
+      <li><a href="https://people.eecs.berkeley.edu/~brecht/">Ben Recht</a></li>
+      <li><a href="https://people.csail.mit.edu/ludwigs/">Ludwig Schmidt</a></li>
     </ul>
   </h2>
 
@@ -45,9 +47,9 @@
   <section id="downloads">
     <div class="content">
       <div id="paper-links">
-        <a href="https://arxiv.org/abs/2007.00644" target="_blank"><span id="paper-links-paper">Pre-print</span></a>
-        <a href="https://github.com/modestyachts/imagenet-testbed" target="_blank"><span id="paper-links-results">Testbed Repository</span></a>
-        <a href="http://imagenet-testbed-2088145982.us-west-2.elb.amazonaws.com/" target="_blank"><span id="paper-links-code">Interactive Website</span></a>
+        <a href="https://arxiv.org/abs/2007.00644"><span id="paper-links-paper">Pre-print</span></a>
+        <a href="https://github.com/modestyachts/imagenet-testbed"><span id="paper-links-results">Testbed Repository</span></a>
+        <a href="http://imagenet-testbed-2088145982.us-west-2.elb.amazonaws.com/"><span id="paper-links-code">Interactive Website</span></a>
       </div>
     </div>
   </section>
@@ -58,7 +60,7 @@
   <section id="abstract">
     <h4 class="heading"><span>Abstract</span></h4>
     <div class="content">
-      We study how robust current ImageNet models are to distribution shifts arising from natural variations in datasets. Most research on robustness focuses on synthetic image perturbations (noise, simulated weather artifacts, adversarial examples, etc.), which leaves open how robustness on synthetic distribution shift relates to distribution shift arising in real data. Informed by an evaluation of 196 ImageNet models in 211 different test conditions, we find that there is little to no transfer of robustness from current synthetic to natural distribution shift. Moreover, most current techniques provide no robustness to the natural distribution shifts in our testbed. The main exception is training on larger datasets, which in some cases offers small gains in robustness. Our results indicate that distribution shifts arising in real data are currently an open research problem.
+      We study how robust current ImageNet models are to distribution shifts arising from natural variations in datasets. Most research on robustness focuses on synthetic image perturbations (noise, simulated weather artifacts, adversarial examples, etc.), which leaves open how robustness on synthetic distribution shift relates to distribution shift arising in real data. Informed by an evaluation of 204 ImageNet models in 213 different test conditions, we find that there is little to no transfer of robustness from current synthetic to natural distribution shift. Moreover, most current techniques provide no robustness to the natural distribution shifts in our testbed. The main exception is training on larger datasets, which in some cases offers small gains in robustness. Our results indicate that distribution shifts arising in real data are currently an open research problem.
     </div>
   </section>
 
@@ -67,17 +69,17 @@
   </div>
   <section id="teaser">
     <figure class="text-center">
-      <a href="web_assets/grid.png" target="_blank" style="color:none;border-bottom:none;background:none">
+      <a href="web_assets/grid.png" style="color:none;border-bottom:none;background:none">
       <img id="teaser-img" class="figure-img img-fluid" src="web_assets/grid.jpg" style="width:40%">
       </a>
       &nbsp; &nbsp; &nbsp; &nbsp;
-      <a href="web_assets/plots.png" target="_blank" style="color:none;border-bottom:none;background:none">
+      <a href="web_assets/plots.png" style="color:none;border-bottom:none;background:none">
       <img id="teaser-img" class="figure-img img-fluid" src="web_assets/plots.jpg" style="width:50%">
       </a>
       <figcaption class="figure-caption text-center" id="teaser-caption">
       (Left) An overview of our testbed. Each cell represents a model evaluation on a distribution shift.<br />
       (Right) Testing robustness by plotting models in the testbed against a few natural distribution shifts.<br />
-      Check out our <a href="http://imagenet-testbed-2088145982.us-west-2.elb.amazonaws.com/" target="_blank">interactive website</a> to play with the data and <a href="https://arxiv.org/abs/2007.00644" target="_blank">our paper</a> to read our analysis. 
+      Check out our <a href="http://imagenet-testbed-2088145982.us-west-2.elb.amazonaws.com/">interactive website</a> to play with the data and <a href="https://arxiv.org/abs/2007.00644">our paper</a> to read our analysis. 
       </figcaption>
     </figure>
   </section>
@@ -88,7 +90,7 @@
   <section id="abstract">
     <h4 class="heading"><span>Testbed</span></h4>
     <div class="content">
-      We have released our <a href="https://github.com/modestyachts/imagenet-testbed" target="_blank">testbed</a>, which comes with all our code and data, to allow researchers to use our framework to develop and evaluate new models and distribution shifts. To this end, we have made it very simple to add new models with a few lines of code (resnet50 example):
+      We have released our <a href="https://github.com/modestyachts/imagenet-testbed">testbed</a>, which comes with all our code and data, to allow researchers to use our framework to develop and evaluate new models and distribution shifts. To this end, we have made it very simple to add new models with a few lines of code (resnet50 example):
       <p></p> <font size="-0"><pre><code>from torchvision.models import resnet50
 from registry import registry
 from models.model_base import Model, StandardTransform, StandardNormalization

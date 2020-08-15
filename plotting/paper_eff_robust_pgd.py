@@ -55,7 +55,6 @@ def format_eff_robust(df, x_axis, y_axis, y_axis_fit, transform):
     lin_fit_ys = inv_transform_acc(lin_fit_ys_trans, transform)
 
     df['eff_robust_x'] = df[y_axis] - lin_fit_ys
-    print('PEARSONR', scipy.stats.pearsonr(df['eff_robust_x'], df['eff_robust_y'])[0])
     return df
 
 

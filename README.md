@@ -2,7 +2,7 @@
 This repository a large testbed to examine the robustness of various ImageNet classifers on many synthetic and natural distribution shifts. 
 It is associated with the paper [Measuring Robustness to Natural Distribution Shifts in Image Classification](https://modestyachts.github.io/imagenet-testbed/).
 
-This testbed currently supports 196 ImageNet models and 211 different evaluation settings. All the evaluation code and data used to generate the results from the paper and website can be found here. **More importantly, this repository is designed to be extremely simple to add additional models and datasets, so that future researchers may leverage this existing evalation framework to compare and evaluate their progress.**
+This testbed currently supports 204 ImageNet models and 213 different evaluation settings. All the evaluation code and data used to generate the results from the paper and website can be found here. **More importantly, this repository is designed to be extremely simple to add additional models and datasets, so that future researchers may leverage this existing evalation framework to compare and evaluate their progress.**
 
 
 ## Installation
@@ -17,7 +17,7 @@ pip install -r requirements.txt
 
 
 ## Running evaluations
-To run models `resnet50` and `densenet121` on evaluation settings `val` and `imagenetv2-matched-frequency` with gpu ids `0` and `1`, run:
+To run models `resnet50` and `densenet121` on evaluation settings `val` (ImageNet validation set) and `imagenetv2-matched-frequency` with gpu ids `0` and `1`, run:
 ```
 python eval.py --gpus 0 1 --models resnet50 densenet121 --eval-settings val imagenetv2-matched-frequency
 ```
@@ -28,7 +28,7 @@ For more information on each, please see Appendices E and F in [our paper](https
 ## Viewing results
 We recommend our [interactive website](http://imagenet-testbed-2088145982.us-west-2.elb.amazonaws.com/) as a starting point to explore the data in this testbed.
 
-Results can be individually queried from the database via the `db.py` script:
+Full results are [in the results csv](robustness_top1s.csv) or can be individually queried from the database via the `db.py` script:
 ```
 python db.py --print-eval resnet50 objectnet-1.0-beta
 ```
@@ -36,7 +36,7 @@ To view all the results in the testbed at a glance, the grid can be generated vi
 ```
 cd plotting && python paper_appendix_grid.py
 ```
-The `plotting` directory contains the code used to generate all the plots in the paper. In particular, running `bash paper_plots.sh` will generate all the main plots in the main text of the paper.
+The `plotting` directory contains the code used to generate all the plots in the paper. In particular, running `bash paper_plots.sh` will generate all the main plots in the main text of the paper (details in the file comments).
 
 To see a full list of models or eval settings available to query for results, run `python db.py --list-models-db` or `python db.py --list-eval-settings-db`. This list is slightly longer than the registry list as some models as unavailable as part of the testbed at this time.
 

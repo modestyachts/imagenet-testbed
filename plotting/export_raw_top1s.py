@@ -18,7 +18,7 @@ import download_data
 
 @click.command()
 @click.option('--output_dir', type=str, default=str((pathlib.Path(__file__).parent / '../outputs').resolve()))
-@click.option('--output_file_dir', type=str, default=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()))
+@click.option('--output_file_dir', type=str, default=str((pathlib.Path(__file__).parent / '../').resolve()))
 @click.option('--skip_download', is_flag=True, type=bool)
 def plot_grid(output_dir, output_file_dir, skip_download):
 
@@ -30,26 +30,18 @@ def plot_grid(output_dir, output_file_dir, skip_download):
     else:
         df = download_data.download_plotting_data(output_dir, store_data=True, verbose=True)
 
+    print('NOTE: Please note this script will export raw top-1 model accuracies without any metadata. Use cautiously.')
+
     df = dataframe.strip_metadata(df)
     df = dataframe.replace_10percent_naive(df)
-    # df = dataframe.aggregate_corruptions_naive(df)
 
     df = df.drop(columns=['openimages_test_ilsvrc_subset', 'val-on-openimages-classes'])
     df = df[sorted(df.columns.to_list())]
 
     os.makedirs(output_file_dir, exist_ok=True)
-
-    sns.set(rc={'figure.figsize':(df.shape[1]//1.5, df.shape[0]//1.5)})
-    plt.figure()
-    heatmap = sns.heatmap(df, annot=True, cmap='viridis', cbar=False, square=True)
-    heatmap.set_xlabel('Evaluation Setting')
-    heatmap.set_ylabel('Model')
-    heatmap.set_title('ImageNet Accuracies (top-1, %)')
-    heatmap.figure.tight_layout()
-    target = join(output_file_dir, f'grid.pdf')
-    heatmap.figure.savefig(target, bbox_inches='tight', pad_inches=0.1)
-    plt.close()
-    print(f'Wrote the grid to {target}')
+    target = join(output_file_dir, f'robustness_top1s.csv')
+    df.to_csv(target)
+    print(f'Wrote the top-1 results csv to {target}')
 
 
 if __name__ == "__main__":

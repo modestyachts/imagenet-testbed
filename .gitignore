@@ -18,10 +18,13 @@ __latexindent_temp.tex
 *.xdv
 *.dvi
 
+# vim
+*.swp
+
 # latex compilations
 robust_arxiv2020.pdf
 robust_neurips2020.pdf
-robust_icml2020.pdf
+robust_neurips2020_author_response.pdf
 
 # output files
 outputs/

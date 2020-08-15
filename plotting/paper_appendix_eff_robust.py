@@ -103,6 +103,9 @@ def generate_xy_plot(x_axis, y_axis, x_axis_fit, y_axis_fit, transform, num_boot
 
     df = format_eff_robust(df, x_axis, y_axis, x_axis_fit, y_axis_fit, transform)
 
+    # dfp = df[df.show_in_plot][['eff_robust_x', 'eff_robust_y']].dropna()
+    # print("PEARSONR:", scipy.stats.pearsonr(dfp['eff_robust_x'], dfp['eff_robust_y'])[0])
+
     # auto set xlim and ylim based on visible points
     df_visible = df[df.show_in_plot == True]
     xlim = [df_visible['eff_robust_x'].min() - 1, df_visible['eff_robust_x'].max() + 1]
@@ -237,4 +240,32 @@ if __name__ == '__main__':
                          skip_download=True,
                          x_label='Lp Attacks' if 'pgd' in y_axis else 'Corruptions Averaged',
                          y_label='YTBB-Robust (pm-10)',
+                        )
+
+        cur_model_types, cur_model_types_map = NatModelTypes, nat_model_types_map
+
+        generate_xy_plot(x_axis='val',
+                         y_axis=y_axis,
+                         x_axis_fit='val-on-imagenet-r-classes',
+                         y_axis_fit='imagenet-r',
+                         transform='logit',
+                         num_bootstrap_samples=1000, #100000
+                         output_dir=str((pathlib.Path(__file__).parent / '../outputs').resolve()),
+                         output_file_dir=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()),
+                         skip_download=True,
+                         x_label='Lp Attacks' if 'pgd' in y_axis else 'Corruptions Averaged',
+                         y_label='ImageNet-R',
+                        )
+
+        generate_xy_plot(x_axis='val',
+                         y_axis=y_axis,
+                         x_axis_fit='val',
+                         y_axis_fit='imagenet-sketch',
+                         transform='logit',
+                         num_bootstrap_samples=1000, #100000
+                         output_dir=str((pathlib.Path(__file__).parent / '../outputs').resolve()),
+                         output_file_dir=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()),
+                         skip_download=True,
+                         x_label='Lp Attacks' if 'pgd' in y_axis else 'Corruptions Averaged',
+                         y_label='ImageNet-Sketch',
                         )
