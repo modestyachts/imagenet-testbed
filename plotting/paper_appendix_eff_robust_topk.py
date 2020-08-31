@@ -164,7 +164,7 @@ if __name__ == '__main__':
                      x_axis_fit='val',
                      y_axis_fit='imagenetv2-matched-frequency-format-val',
                      transform='logit',
-                     num_bootstrap_samples=1000, #100000
+                     num_bootstrap_samples=1000, 
                      output_dir=str((pathlib.Path(__file__).parent / '../outputs').resolve()),
                      output_file_dir=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()),
                      skip_download=True,
@@ -178,7 +178,7 @@ if __name__ == '__main__':
                      x_axis_fit='val',
                      y_axis_fit='imagenetv2-matched-frequency-format-val',
                      transform='logit',
-                     num_bootstrap_samples=1000, #100000
+                     num_bootstrap_samples=1000, 
                      output_dir=str((pathlib.Path(__file__).parent / '../outputs').resolve()),
                      output_file_dir=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()),
                      skip_download=True,
@@ -193,7 +193,7 @@ if __name__ == '__main__':
                      x_axis_fit='val-on-objectnet-classes',
                      y_axis_fit='objectnet-1.0-beta',
                      transform='logit',
-                     num_bootstrap_samples=1000, #100000
+                     num_bootstrap_samples=1000, 
                      output_dir=str((pathlib.Path(__file__).parent / '../outputs').resolve()),
                      output_file_dir=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()),
                      skip_download=True,
@@ -207,7 +207,7 @@ if __name__ == '__main__':
                      x_axis_fit='val-on-objectnet-classes',
                      y_axis_fit='objectnet-1.0-beta',
                      transform='logit',
-                     num_bootstrap_samples=1000, #100000
+                     num_bootstrap_samples=1000, 
                      output_dir=str((pathlib.Path(__file__).parent / '../outputs').resolve()),
                      output_file_dir=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()),
                      skip_download=True,
@@ -222,7 +222,7 @@ if __name__ == '__main__':
                      x_axis_fit='val-on-vid-robust-classes',
                      y_axis_fit='imagenet-vid-robust_pm0',
                      transform='logit',
-                     num_bootstrap_samples=1000, #100000
+                     num_bootstrap_samples=1000, 
                      output_dir=str((pathlib.Path(__file__).parent / '../outputs').resolve()),
                      output_file_dir=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()),
                      skip_download=True,
@@ -236,7 +236,7 @@ if __name__ == '__main__':
                      x_axis_fit='val-on-vid-robust-classes',
                      y_axis_fit='imagenet-vid-robust_pm0',
                      transform='logit',
-                     num_bootstrap_samples=1000, #100000
+                     num_bootstrap_samples=1000, 
                      output_dir=str((pathlib.Path(__file__).parent / '../outputs').resolve()),
                      output_file_dir=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()),
                      skip_download=True,
@@ -251,7 +251,7 @@ if __name__ == '__main__':
                      x_axis_fit='val-on-ytbb-robust-classes',
                      y_axis_fit='ytbb-robust_pm0',
                      transform='logit',
-                     num_bootstrap_samples=1000, #100000
+                     num_bootstrap_samples=1000, 
                      output_dir=str((pathlib.Path(__file__).parent / '../outputs').resolve()),
                      output_file_dir=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()),
                      skip_download=True,
@@ -265,7 +265,7 @@ if __name__ == '__main__':
                      x_axis_fit='val-on-ytbb-robust-classes',
                      y_axis_fit='ytbb-robust_pm0',
                      transform='logit',
-                     num_bootstrap_samples=1000, #100000
+                     num_bootstrap_samples=1000, 
                      output_dir=str((pathlib.Path(__file__).parent / '../outputs').resolve()),
                      output_file_dir=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()),
                      skip_download=True,
@@ -280,7 +280,7 @@ if __name__ == '__main__':
                      x_axis_fit='val-on-imagenet-a-classes',
                      y_axis_fit='imagenet-a',
                      transform='logit',
-                     num_bootstrap_samples=1000, #100000
+                     num_bootstrap_samples=1000, 
                      output_dir=str((pathlib.Path(__file__).parent / '../outputs').resolve()),
                      output_file_dir=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()),
                      skip_download=True,
@@ -294,7 +294,7 @@ if __name__ == '__main__':
                      x_axis_fit='val-on-imagenet-a-classes',
                      y_axis_fit='imagenet-a',
                      transform='logit',
-                     num_bootstrap_samples=1000, #100000
+                     num_bootstrap_samples=1000, 
                      output_dir=str((pathlib.Path(__file__).parent / '../outputs').resolve()),
                      output_file_dir=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()),
                      skip_download=True,
@@ -311,7 +311,7 @@ if __name__ == '__main__':
                      x_axis_fit='imagenet-vid-robust_pm0',
                      y_axis_fit='imagenet-vid-robust_pm10',
                      transform='logit',
-                     num_bootstrap_samples=1000, #100000
+                     num_bootstrap_samples=1000, 
                      output_dir=str((pathlib.Path(__file__).parent / '../outputs').resolve()),
                      output_file_dir=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()),
                      skip_download=True,
@@ -325,7 +325,7 @@ if __name__ == '__main__':
                      x_axis_fit='imagenet-vid-robust_pm0',
                      y_axis_fit='imagenet-vid-robust_pm10',
                      transform='logit',
-                     num_bootstrap_samples=1000, #100000
+                     num_bootstrap_samples=1000, 
                      output_dir=str((pathlib.Path(__file__).parent / '../outputs').resolve()),
                      output_file_dir=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()),
                      skip_download=True,
@@ -340,7 +340,7 @@ if __name__ == '__main__':
                      x_axis_fit='ytbb-robust_pm0',
                      y_axis_fit='ytbb-robust_pm10',
                      transform='logit',
-                     num_bootstrap_samples=1000, #100000
+                     num_bootstrap_samples=1000, 
                      output_dir=str((pathlib.Path(__file__).parent / '../outputs').resolve()),
                      output_file_dir=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()),
                      skip_download=True,
@@ -354,7 +354,7 @@ if __name__ == '__main__':
                      x_axis_fit='ytbb-robust_pm0',
                      y_axis_fit='ytbb-robust_pm10',
                      transform='logit',
-                     num_bootstrap_samples=1000, #100000
+                     num_bootstrap_samples=1000, 
                      output_dir=str((pathlib.Path(__file__).parent / '../outputs').resolve()),
                      output_file_dir=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()),
                      skip_download=True,

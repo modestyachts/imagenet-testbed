@@ -52,14 +52,14 @@ def load_logits_jft(images, model):
     return logits
 
 
-registry.add_model(
-    Model(
-        name = 'google_resnet101_jft-300M',
-        arch = 'resnet101',
-        transform = StandardTransform(img_resize_size=256, img_crop_size=224),
-        normalization = StandardNormalization(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]),
-        classifier_loader = lambda: None,
-        eval_batch_size = 1000,
-        classify = store_logits_jft, # switch to load_logits_jft when needed
-    )
-)
+# registry.add_model(
+#     Model(
+#         name = 'google_resnet101_jft-300M',
+#         arch = 'resnet101',
+#         transform = StandardTransform(img_resize_size=256, img_crop_size=224),
+#         normalization = StandardNormalization(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]),
+#         classifier_loader = lambda: None,
+#         eval_batch_size = 1000,
+#         classify = store_logits_jft, # switch to load_logits_jft when needed
+#     )
+# )

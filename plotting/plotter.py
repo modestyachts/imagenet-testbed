@@ -201,23 +201,27 @@ def model_scatter_plot(df, x_axis, y_axis, xlim, ylim, model_types, num_bootstra
     model_points = OrderedDict()
     model_names = []
     for m in model_types:
-        if len(m.value) > 2:
+        if len(m.value) == 5:
+            n, c, s, a, marker = m.value
+        elif len(m.value) > 2:
             n, c, s = m.value
             if isinstance(s, tuple):
                 s, a = s
             else:
                 a = alpha
+            marker = 'o'
         else:
             n, c = m.value
             s = defaultmarkersize
             a = alpha
+            marker = 'o'
         if not any(labels == m):
             continue
         ax.errorbar(x_acc_plot_trans[labels == m], y_acc_plot_trans[labels == m], xerr=xerr[:, labels == m], yerr=yerr[:, labels == m],
                     capsize=2, linewidth=error_line_width, ls='none', color=c, alpha=error_alpha, zorder=8)
         # alpha = None if isinstance(c, (list, tuple)) and len(c) == 4 else 0.5
         points = ax.scatter(x_acc_plot_trans[labels == m], y_acc_plot_trans[labels == m],
-                            zorder=9, color=c, s=s, label=n, alpha=a, linewidths=0)
+                            zorder=9, color=c, s=s, label=n, alpha=a, linewidths=0, marker=marker)
         model_points[n] = points
         # Reverse models within groups, then reverse all models. This is the
         # path that gives us the order that matches matplotlib's artists.

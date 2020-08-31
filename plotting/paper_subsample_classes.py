@@ -177,7 +177,7 @@ def prepare_df_for_plotting(df, df_metadata, columns):
 @click.option('--x_axis', type=str, default='val_subsampled_class_1_8')
 @click.option('--y_axis', type=str, default='imagenetv2-matched-frequency-format-val_subsampled_class_1_8')
 @click.option('--transform', type=str, default='logit')
-@click.option('--num_bootstrap_samples', type=int, default=1000) #100000
+@click.option('--num_bootstrap_samples', type=int, default=1000) 
 @click.option('--output_dir', type=str, default=str((pathlib.Path(__file__).parent / '../outputs').resolve()))
 @click.option('--output_file_dir', type=str, default=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()))
 @click.option('--skip_download', is_flag=True, type=bool)

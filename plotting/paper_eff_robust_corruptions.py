@@ -63,7 +63,7 @@ def format_eff_robust(df, x_axis, y_axis, y_axis_fit, transform):
 @click.option('--y_axis', type=str, default='avg_corruptions')
 @click.option('--y_axis_fit', type=str, default='imagenetv2-matched-frequency-format-val')
 @click.option('--transform', type=str, default='logit')
-@click.option('--num_bootstrap_samples', type=int, default=1000) #100000
+@click.option('--num_bootstrap_samples', type=int, default=1000) 
 @click.option('--output_dir', type=str, default=str((pathlib.Path(__file__).parent / '../outputs').resolve()))
 @click.option('--output_file_dir', type=str, default=str((pathlib.Path(__file__).parent / '../paper/figs').resolve()))
 @click.option('--skip_download', is_flag=True, type=bool)

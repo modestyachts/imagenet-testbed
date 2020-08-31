@@ -198,13 +198,17 @@ KNOWN_MODELS = OrderedDict([
 
 model_params = {
 'BiT-M-R50x1-ILSVRC2012': {   'arch': 'BiT-M-R50x1',
-                              'eval_batch_size': 64},
+                              'eval_batch_size': 64,
+                              'adversarial_batch_size': 4},
 'BiT-M-R50x3-ILSVRC2012': {   'arch': 'BiT-M-R50x3',
-                              'eval_batch_size': 32},
+                              'eval_batch_size': 32,
+                              'adversarial_batch_size': 1},
 'BiT-M-R101x1-ILSVRC2012': {  'arch': 'BiT-M-R101x1',
-                              'eval_batch_size': 64},
+                              'eval_batch_size': 64,
+                              'adversarial_batch_size': 1},
 'BiT-M-R101x3-ILSVRC2012': {  'arch': 'BiT-M-R101x3',
-                              'eval_batch_size': 32},
+                              'eval_batch_size': 32,
+                              'adversarial_batch_size': 1},
 'BiT-M-R152x4-ILSVRC2012': {  'arch': 'BiT-M-R152x4',
                               'eval_batch_size': 8},
 }
@@ -228,5 +232,6 @@ for name, d in model_params.items():
             normalization = StandardNormalization([0.5, 0.5, 0.5], [0.5, 0.5, 0.5]),
             classifier_loader = gen_classifier_loader(name, d),
             eval_batch_size = d['eval_batch_size'],
+            adversarial_batch_size = d['adversarial_batch_size'] if 'adversarial_batch_size' in d else None,
         )
     )

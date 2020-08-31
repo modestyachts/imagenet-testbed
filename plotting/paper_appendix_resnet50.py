@@ -21,12 +21,12 @@ class ModelTypes(Enum):
     MORE_DATA = ('Trained with more data', 'tab:green', 80)
 
 model_types_map = {
+'resnet50': ModelTypes.STANDARD,
 'FixResNet50': ModelTypes.ARCH_MODIF,
 'FixResNet50CutMix': ModelTypes.DATA_AUG,
 'FixResNet50CutMix_v2': ModelTypes.DATA_AUG,
 'FixResNet50_no_adaptation': ModelTypes.ARCH_MODIF,
 'FixResNet50_v2': ModelTypes.ARCH_MODIF,
-'resnet50_aws_baseline': ModelTypes.STANDARD,
 'resnet50-randomized_smoothing_noise_0.25': ModelTypes.LP_ADV,
 'resnet50-randomized_smoothing_noise_0.50': ModelTypes.LP_ADV,
 'resnet50-randomized_smoothing_noise_1.00': ModelTypes.LP_ADV,
@@ -44,6 +44,8 @@ model_types_map = {
 'resnet50_augmix': ModelTypes.DATA_AUG,
 'resnet50_cutmix': ModelTypes.DATA_AUG,
 'resnet50_cutout': ModelTypes.DATA_AUG,
+'resnet50_deepaugment': ModelTypes.DATA_AUG,
+'resnet50_deepaugment_augmix': ModelTypes.DATA_AUG,
 'resnet50_feature_cutmix': ModelTypes.DATA_AUG,
 'resnet50_l2_eps3_robust': ModelTypes.LP_ADV,
 'resnet50_linf_eps4_robust': ModelTypes.LP_ADV,
@@ -90,11 +92,21 @@ model_types_map = {
 'dpn68': ModelTypes.STANDARD,
 'dpn98': ModelTypes.STANDARD,
 'efficientnet-b0': ModelTypes.STANDARD,
+'efficientnet-b0-autoaug': ModelTypes.STANDARD,
 'efficientnet-b1': ModelTypes.STANDARD,
+'efficientnet-b1-autoaug': ModelTypes.STANDARD,
 'efficientnet-b2': ModelTypes.STANDARD,
+'efficientnet-b2-autoaug': ModelTypes.STANDARD,
 'efficientnet-b3': ModelTypes.STANDARD,
+'efficientnet-b3-autoaug': ModelTypes.STANDARD,
 'efficientnet-b4': ModelTypes.STANDARD,
+'efficientnet-b4-autoaug': ModelTypes.STANDARD,
 'efficientnet-b5': ModelTypes.STANDARD,
+'efficientnet-b5-autoaug': ModelTypes.STANDARD,
+'efficientnet-b5-randaug': ModelTypes.STANDARD,
+'efficientnet-b6-autoaug': ModelTypes.STANDARD,
+'efficientnet-b7-autoaug': ModelTypes.STANDARD,
+'efficientnet-b7-randaug': ModelTypes.STANDARD,
 'fbresnet152': ModelTypes.STANDARD,
 'googlenet/inceptionv1': ModelTypes.STANDARD,
 'inceptionresnetv2': ModelTypes.STANDARD,
@@ -185,8 +197,9 @@ def generate_xy_plot(x_axis, y_axis, transform, num_bootstrap_samples, output_di
 
         legend.savefig(join(output_file_dir, f'resnet50_legend.pdf'), dpi='figure', bbox_inches='tight', pad_inches=0.1)
         print(f"Legend saved to {join(output_file_dir, f'resnet50_legend.pdf')}")
-        fig.savefig(join(output_file_dir, f'resnet50_{y_axis}.pdf'), dpi='figure', bbox_inches='tight', pad_inches=0.1)
-        print(f"Plot saved to {join(output_file_dir, f'resnet50_{y_axis}.pdf')}")
+        filename_fig = join(output_file_dir, f'resnet50_{y_axis.replace("1.0", "1")}.pdf')
+        fig.savefig(filename_fig, dpi='figure', bbox_inches='tight', pad_inches=0.1)
+        print(f"Plot saved to {filename_fig}")
 
     else:
         fig, _, legend = plotter.model_scatter_plot_quadrants_imagenet_a(df, x_axis, y_axis, xlim, ylim, ModelTypes, 
@@ -197,6 +210,7 @@ def generate_xy_plot(x_axis, y_axis, transform, num_bootstrap_samples, output_di
 
         legend.savefig(join(output_file_dir, f'resnet50_legend2.pdf'), dpi='figure', bbox_inches='tight', pad_inches=0.1)
         print(f"Legend saved to {join(output_file_dir, f'resnet50_legend2.pdf')}")
+        filename_fig = join(output_file_dir, f'resnet50_{y_axis.replace("1.0", "1")}.pdf')
         fig.savefig(join(output_file_dir, f'resnet50_{y_axis}.pdf'), dpi='figure', bbox_inches='tight', pad_inches=0.1)
         print(f"Plot saved to {join(output_file_dir, f'resnet50_{y_axis}.pdf')}")
 
@@ -220,7 +234,7 @@ if __name__ == '__main__':
     generate_xy_plot(x_axis='val',
                      y_axis='imagenetv2-matched-frequency-format-val',
                      transform='logit',
-                     num_bootstrap_samples=1000, #100000
+                     num_bootstrap_samples=1000, 
                      output_dir=str((pathlib.Path(__file__).parent / '../outputs').resolve()),
                      output_file_dir=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()),
                      skip_download=True,
@@ -231,7 +245,7 @@ if __name__ == '__main__':
     generate_xy_plot(x_axis='val-on-objectnet-classes',
                      y_axis='objectnet-1.0-beta',
                      transform='logit',
-                     num_bootstrap_samples=1000, #100000
+                     num_bootstrap_samples=1000, 
                      output_dir=str((pathlib.Path(__file__).parent / '../outputs').resolve()),
                      output_file_dir=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()),
                      skip_download=True,
@@ -242,7 +256,7 @@ if __name__ == '__main__':
     generate_xy_plot(x_axis='val-on-vid-robust-classes',
                      y_axis='imagenet-vid-robust_pm0',
                      transform='logit',
-                     num_bootstrap_samples=1000, #100000
+                     num_bootstrap_samples=1000, 
                      output_dir=str((pathlib.Path(__file__).parent / '../outputs').resolve()),
                      output_file_dir=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()),
                      skip_download=True,
@@ -254,7 +268,7 @@ if __name__ == '__main__':
     generate_xy_plot(x_axis='val-on-ytbb-robust-classes',
                      y_axis='ytbb-robust_pm0',
                      transform='logit',
-                     num_bootstrap_samples=1000, #100000
+                     num_bootstrap_samples=1000, 
                      output_dir=str((pathlib.Path(__file__).parent / '../outputs').resolve()),
                      output_file_dir=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()),
                      skip_download=True,
@@ -266,7 +280,7 @@ if __name__ == '__main__':
     generate_xy_plot(x_axis='imagenet-vid-robust_pm0',
                      y_axis='imagenet-vid-robust_pm10',
                      transform='logit',
-                     num_bootstrap_samples=1000, #100000
+                     num_bootstrap_samples=1000, 
                      output_dir=str((pathlib.Path(__file__).parent / '../outputs').resolve()),
                      output_file_dir=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()),
                      skip_download=True,
@@ -279,7 +293,7 @@ if __name__ == '__main__':
     generate_xy_plot(x_axis='ytbb-robust_pm0',
                      y_axis='ytbb-robust_pm10',
                      transform='logit',
-                     num_bootstrap_samples=1000, #100000
+                     num_bootstrap_samples=1000, 
                      output_dir=str((pathlib.Path(__file__).parent / '../outputs').resolve()),
                      output_file_dir=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()),
                      skip_download=True,
@@ -292,7 +306,7 @@ if __name__ == '__main__':
     generate_xy_plot(x_axis='val-on-imagenet-a-classes',
                  y_axis='imagenet-a',
                  transform='logit',
-                 num_bootstrap_samples=1000, #100000
+                 num_bootstrap_samples=1000, 
                  output_dir=str((pathlib.Path(__file__).parent / '../outputs').resolve()),
                  output_file_dir=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()),
                  skip_download=True,

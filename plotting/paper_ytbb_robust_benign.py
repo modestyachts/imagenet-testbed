@@ -35,7 +35,7 @@ def use_for_line_fit(df_row):
 @click.option('--x_axis', type=str, default='val-on-ytbb-robust-classes')
 @click.option('--y_axis', type=str, default='ytbb-robust_pm0')
 @click.option('--transform', type=str, default='logit')
-@click.option('--num_bootstrap_samples', type=int, default=1000) #100000
+@click.option('--num_bootstrap_samples', type=int, default=1000) 
 @click.option('--output_dir', type=str, default=str((pathlib.Path(__file__).parent / '../outputs').resolve()))
 @click.option('--output_file_dir', type=str, default=str((pathlib.Path(__file__).parent / '../paper/figs').resolve()))
 @click.option('--skip_download', is_flag=True, type=bool)
@@ -75,7 +75,7 @@ def generate_xy_plot(x_axis, y_axis, transform, num_bootstrap_samples, output_di
     fig, _ = plotter.model_scatter_plot(df, x_axis, y_axis, xlim, ylim, NatModelTypes, 
                                          transform=transform, num_bootstrap_samples=num_bootstrap_samples,
                                          x_tick_multiplier=5 if option=='no-subsample' else 1, y_tick_multiplier=5, y_unit='pm-0, %',
-                                         title='Distribution Shift to YTBB-Robust', x_label=x_label, y_label='YTBB-Robust', 
+                                         title='Distribution Shift to YTBB-Anchors', x_label=x_label, y_label='YTBB-Robust', 
                                          figsize=(12, 8), include_legend=False, return_separate_legend=False)
     
     os.makedirs(output_file_dir, exist_ok=True)

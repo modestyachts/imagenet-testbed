@@ -2,6 +2,7 @@ import os
 from os.path import join, exists
 import argparse
 import pathlib
+from enum import Enum
 
 import click
 import numpy as np
@@ -13,8 +14,25 @@ import plotter
 from model_types import ModelTypes, model_types_map
 
 
+class DeepAugmentModelTypes(Enum):
+    STANDARD = ModelTypes.STANDARD.value
+    LP_ADV = ModelTypes.LP_ADV.value
+    ROBUST_INTV = ModelTypes.ROBUST_INTV.value
+    MORE_DATA = ModelTypes.MORE_DATA.value
+    DEEPAUGMENT = ('_nolegend_', 'tab:brown', 150, 0.9, 's')
+
+
 def get_model_type(df_row):
-    return model_types_map[df_row.name]
+    if 'deepaugment' in df_row.name.lower() and 'augmix' in df_row.name.lower():
+        return DeepAugmentModelTypes.DEEPAUGMENT
+    elif model_types_map[df_row.name] == ModelTypes.MORE_DATA:
+        return DeepAugmentModelTypes.MORE_DATA
+    elif model_types_map[df_row.name] == ModelTypes.LP_ADV:
+        return DeepAugmentModelTypes.LP_ADV
+    elif model_types_map[df_row.name] == ModelTypes.ROBUST_INTV:
+        return DeepAugmentModelTypes.ROBUST_INTV
+    elif model_types_map[df_row.name] == ModelTypes.STANDARD:
+        return DeepAugmentModelTypes.STANDARD
 
 
 def show_in_plot(df_row):
@@ -24,14 +42,14 @@ def show_in_plot(df_row):
 
 def use_for_line_fit(df_row):
     model_name, model_type, in_plot = df_row.name.lower(), df_row.model_type, df_row.show_in_plot
-    return 'aws' not in model_name and 'batch64' not in model_name and model_type is ModelTypes.STANDARD and in_plot
+    return 'aws' not in model_name and 'batch64' not in model_name and model_type is DeepAugmentModelTypes.STANDARD and in_plot
 
 
 @click.command()
 @click.option('--x_axis', type=str, default='val-on-imagenet-r-classes')
 @click.option('--y_axis', type=str, default='imagenet-r')
 @click.option('--transform', type=str, default='logit')
-@click.option('--num_bootstrap_samples', type=int, default=1000) #100000
+@click.option('--num_bootstrap_samples', type=int, default=1000) 
 @click.option('--output_dir', type=str, default=str((pathlib.Path(__file__).parent / '../outputs').resolve()))
 @click.option('--output_file_dir', type=str, default=str((pathlib.Path(__file__).parent / '../paper/appendix').resolve()))
 @click.option('--skip_download', is_flag=True, type=bool)
@@ -57,7 +75,7 @@ def generate_xy_plot(x_axis, y_axis, transform, num_bootstrap_samples, output_di
     xlim = [df_visible[x_axis].min() - 1, df_visible[x_axis].max() + 0.5]
     ylim = [df_visible[y_axis].min() - 1, df_visible[y_axis].values.max() + 1]
 
-    fig, _ = plotter.model_scatter_plot(df, x_axis, y_axis, xlim, ylim, ModelTypes, 
+    fig, _ = plotter.model_scatter_plot(df, x_axis, y_axis, xlim, ylim, DeepAugmentModelTypes, 
                                          transform=transform, tick_multiplier=5, num_bootstrap_samples=num_bootstrap_samples,
                                          title='Distribution Shift to ImageNet-R', x_label='ImageNet (class-subsampled)', y_label='ImageNet-R', 
                                          figsize=(12, 8), include_legend=False, return_separate_legend=False)

@@ -35,7 +35,7 @@ def use_for_line_fit(df_row):
 @click.option('--x_axis', type=str, default='val-on-objectnet-classes')
 @click.option('--y_axis', type=str, default='objectnet-1.0-beta')
 @click.option('--transform', type=str, default='logit')
-@click.option('--num_bootstrap_samples', type=int, default=1000) #100000
+@click.option('--num_bootstrap_samples', type=int, default=1000) 
 @click.option('--output_dir', type=str, default=str((pathlib.Path(__file__).parent / '../outputs').resolve()))
 @click.option('--output_file_dir', type=str, default=str((pathlib.Path(__file__).parent / '../paper/figs').resolve()))
 @click.option('--skip_download', is_flag=True, type=bool)
