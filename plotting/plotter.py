@@ -1012,7 +1012,7 @@ def hyp_model_scatter_plot_quadrants(df, x_axis, y_axis, xlim, ylim, model_types
         else:
             ax.legend(list(model_points.values()) + [ideal_repro_line[0], fit_line[0], poor_rel, poor_eff],
                     list(model_points.keys()) + ['ResNet50 target accuracy', r'Baseline accuracy', 'Poor relative robustness', 'Poor effective robustness'],
-                    fontsize=label_fontsize, markerscale=1.5, frameon=False)
+                    fontsize=legend_fontsize, markerscale=1.5, frameon=False)
     fig.tight_layout()
 
     if return_separate_legend:  

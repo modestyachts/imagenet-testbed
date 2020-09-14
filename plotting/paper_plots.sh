@@ -12,5 +12,5 @@ python paper_ytbb_robust_benign.py --skip_download --transform=$transform --num_
 python paper_vid_robust_pmk.py --skip_download --transform=$transform --num_bootstrap_samples=$num_bootstrap_samples --option=$option # Figure 3 left
 python paper_ytbb_robust_pmk.py --skip_download --transform=$transform --num_bootstrap_samples=$num_bootstrap_samples --option=$option # Figure 3 right
 python paper_imagenet_a.py --skip_download --transform=$transform --num_bootstrap_samples=$num_bootstrap_samples --option=$option # Figure 4
-python paper_eff_robust_pgd.py --skip_download --transform=$transform
-python paper_eff_robust_corruptions.py --skip_download --transform=$transform
+python paper_eff_robust_corruptions.py --skip_download --transform=$transform # Figure 5 top row
+python paper_eff_robust_pgd.py --skip_download --transform=$transform # Figure 5 bottom row

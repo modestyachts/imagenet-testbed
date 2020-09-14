@@ -39,11 +39,11 @@ def plot_grid(output_dir, output_file_dir, skip_download):
     df = df.drop(columns=[x+'_on-disk' for x in ['elastic_transform', 'gaussian_blur', 'impulse_noise', 'shot_noise', 'snow', 'speckle_noise']])
     df = df[sorted(df.columns, key = lambda x: x.rsplit('_')[-1]+x)]
     
-    df = df.loc[[x for x in df.index if 'FixResNeXt101_32x48d_v2' in x or 'aws' in x or 'efficientnet-b7-advprop-autoaug' in x]]
+    df = df.loc[[x for x in df.index if 'FixResNeXt101_32x48d_v2' in x or 'aws' in x or 'efficientnet-b8-advprop-autoaug' in x]]
     rows = sorted(df.index)
     rows.append(rows.pop(rows.index('resnet50_with_gaussian_noise_contrast_motion_blur_jpeg_compression_aws')))
     rows.append(rows.pop(rows.index('FixResNeXt101_32x48d_v2')))
-    rows.append(rows.pop(rows.index('efficientnet-b7-advprop-autoaug')))
+    rows.append(rows.pop(rows.index('efficientnet-b8-advprop-autoaug')))
     rows.insert(1, rows.pop(rows.index('resnet50_with_greyscale_aws')))
     df = df.loc[rows]
 

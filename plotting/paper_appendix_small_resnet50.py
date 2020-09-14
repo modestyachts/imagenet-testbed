@@ -63,7 +63,6 @@ def generate_xy_plot(x_axis, y_axis, transform, output_dir, output_file_dir, ski
     df = plotter.add_plotting_data(df, [x_axis, y_axis])
     df = df.dropna()
 
-    # df.loc['resnet50_aws_baseline', 'val'] -= 0.2
     hyp_robust_model = df.loc['resnet50_aws_baseline'].copy()
     arrow_params = [hyp_robust_model['val'], hyp_robust_model['imagenetv2-matched-frequency-format-val']]
     hyp_robust_model.model_type = HypModelTypes.ROBUST
@@ -86,7 +85,7 @@ def generate_xy_plot(x_axis, y_axis, transform, output_dir, output_file_dir, ski
 
     l = ax.legend(loc='upper left',
                   ncol=1,
-                  bbox_to_anchor=(0., 1),
+                  bbox_to_anchor=(0, 1),
                   fontsize=plotter.legend_fontsize,
                   scatterpoints=1,
                   columnspacing=0,

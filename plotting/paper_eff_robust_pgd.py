@@ -12,11 +12,11 @@ import download_data
 import dataframe
 import plotter
 from plotter import transform_acc, inv_transform_acc
-from model_types import NatModelTypes, nat_model_types_map
+from model_types import ModelTypes, model_types_map
 
 
 def get_model_type(df_row):
-    return nat_model_types_map[df_row.name]
+    return model_types_map[df_row.name]
 
 
 def show_in_plot1(df_row):
@@ -25,12 +25,12 @@ def show_in_plot1(df_row):
 
 def show_in_plot2(df_row):
     model_name, model_type = df_row.name.lower(), df_row.model_type
-    return 'subsample' not in model_name and model_type != NatModelTypes.STANDARD # and df_row.val >= 55
+    return 'subsample' not in model_name and model_type != ModelTypes.STANDARD # and df_row.val >= 55
 
 
 def use_for_line_fit(df_row):
     model_name, model_type, in_plot = df_row.name.lower(), df_row.model_type, df_row.show_in_plot
-    return 'aws' not in model_name and 'batch64' not in model_name and model_type is NatModelTypes.STANDARD and in_plot
+    return 'aws' not in model_name and 'batch64' not in model_name and model_type is ModelTypes.STANDARD and in_plot
 
 
 def format_eff_robust(df, x_axis, y_axis, y_axis_fit, transform):
@@ -93,7 +93,7 @@ def generate_xy_plot(x_axis, y_axis, y_axis_fit, transform, num_bootstrap_sample
 
     os.makedirs(output_file_dir, exist_ok=True)
 
-    fig, _, _ = plotter.model_scatter_plot(df, x_axis, y_axis, xlim, ylim, NatModelTypes, 
+    fig, _, _ = plotter.model_scatter_plot(df, x_axis, y_axis, xlim, ylim, ModelTypes, 
                                          transform=transform, tick_multiplier=5, num_bootstrap_samples=num_bootstrap_samples,
                                          title='Distribution Shift to Lp Attacks', x_label='ImageNet', y_label='Lp Attacks', 
                                          figsize=(12, 8), include_legend=False, return_separate_legend=True)
@@ -108,7 +108,7 @@ def generate_xy_plot(x_axis, y_axis, y_axis_fit, transform, num_bootstrap_sample
     xlim = [df_visible['eff_robust_x'].min() - 1, df_visible['eff_robust_x'].max() + 1]
     ylim = [df_visible['eff_robust_y'].min() - 0.5, df_visible['eff_robust_y'].values.max() + 0.5]
 
-    fig, _, _ = plotter.simple_scatter_plot(df, 'eff_robust_x', 'eff_robust_y', xlim, ylim, NatModelTypes, 
+    fig, _, _ = plotter.simple_scatter_plot(df, 'eff_robust_x', 'eff_robust_y', xlim, ylim, ModelTypes, 
                                         title=r'Effective Robustness Scatterplot', 
                                         x_tick_multiplier=5, y_tick_multiplier=1,
                                         x_label='Lp Attacks Effective Robustness', y_label='ImageNetV2 Effective Robustness', 

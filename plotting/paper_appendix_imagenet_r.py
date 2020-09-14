@@ -23,7 +23,7 @@ class DeepAugmentModelTypes(Enum):
 
 
 def get_model_type(df_row):
-    if 'deepaugment' in df_row.name.lower() and 'augmix' in df_row.name.lower():
+    if 'deepaugment' in df_row.name.lower():
         return DeepAugmentModelTypes.DEEPAUGMENT
     elif model_types_map[df_row.name] == ModelTypes.MORE_DATA:
         return DeepAugmentModelTypes.MORE_DATA
