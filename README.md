@@ -6,9 +6,9 @@ This testbed currently supports 204 ImageNet models and 213 different evaluation
 
 
 ## Installation
-Dependencies: cuda 10.2, python 3.7, `requirements.txt`.
+Dependencies: python 3.7, `requirements.txt`, and (if using gpu) cuda 10.2 capable gpus
 
-For example, if using anaconda (and on cuda10.2), create an environment and install the requirements:
+For example, if using anaconda, create an environment and install the requirements:
 ```
 conda create --name robustness python=3.7
 conda activate robustness
