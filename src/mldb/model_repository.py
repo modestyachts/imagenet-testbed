@@ -754,6 +754,12 @@ class ModelRepository:
             else:
                 return None
 
+    def has_evaluation_logits_data(self, evaluation_uuid):
+        with self.session_scope() as session:
+            assert self.evaluation_uuid_exists(evaluation_uuid, session=session)
+            key = get_evaluation_logits_data_key(evaluation_uuid)
+            return self.s3wrapper.exists(key)
+
     def put_evaluation_extra_data(self, evaluation_uuid, extra_data_bytes, verbose=False):
         with self.session_scope() as session:
             assert self.evaluation_uuid_exists(evaluation_uuid, session=session)

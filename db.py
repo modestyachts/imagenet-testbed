@@ -1,4 +1,9 @@
 import argparse
+from tqdm import tqdm
+import pickle
+import torch
+import io
+from os.path import join
 
 import sys
 sys.path.append('src/')
@@ -40,6 +45,9 @@ parser.add_argument('--list-eval-settings-registry', action='store_true',
                     help='lists eval settings in the registry')
 parser.add_argument('--list-parent-eval-settings-registry', action='store_true',
                     help='lists non-child eval settings in the registry')
+
+parser.add_argument('--save-logits', type=str, nargs=2, metavar=('eval-setting', 'logdir'),
+                    help='save prediction logits from all models on eval-setting to logdir')
 
 parser.add_argument('--override', action='store_true',
                     help='safeguard against potentially drastic actions')
@@ -93,7 +101,7 @@ if args.remove_eval_setting:
 
 if args.remove_evaluation:
     assert args.remove_evaluation[0] in utils.MODEL_NAMES, f'Model {args.remove_evaluation[0]} does not exist in db'
-    assert args.remove_evaluation[1] in utils.EVAL_SETTING_NAMES, f'Eval setting {args.rename_eval_setting[1]} does not exist in db'
+    assert args.remove_evaluation[1] in utils.EVAL_SETTING_NAMES, f'Eval setting {args.remove_evaluation[1]} does not exist in db'
 
     result = utils.hide_evaluation(args.remove_evaluation[0], args.remove_evaluation[1])
     if result:
@@ -141,3 +149,23 @@ if args.list_eval_settings_registry:
 if args.list_parent_eval_settings_registry:
     names = [name for name, setting in registry.eval_settings.items() if setting.parent_eval_setting is None]
     print('\nPARENT EVAL SETTINGS IN REGISTRY:\n' + ' '.join(sorted(names)))
+
+
+if args.save_logits:
+    assert args.save_logits[0] in utils.EVAL_SETTING_NAMES, f'Eval setting {args.save_logits[0]} does not exist in db'
+
+    py_eval_setting = utils.m_repo.get_evaluation_setting(name=args.save_logits[0], load_evaluations=True)
+    evals = utils.m_repo.get_evaluations([x.uuid for x in py_eval_setting.evaluations])
+
+    for eval in tqdm(evals):
+        if not utils.m_repo.has_evaluation_logits_data(eval.uuid):
+            print(f'Evaluation logits for model {eval.checkpoint.model.name} not found.')
+            continue
+
+        data = utils.m_repo.get_evaluation_logits_data(eval.uuid)
+        logits = torch.load(io.BytesIO(data)).numpy()
+        logits_dict = {'model': eval.checkpoint.model.name, 'eval-setting': args.save_logits[0], 'logits': logits}
+
+        filename = join(args.save_logits[1], f'{args.save_logits[0]}_|_{eval.checkpoint.model.name.replace("/", "_")}.pickle')
+        with open(filename, 'wb') as handle:
+            pickle.dump(logits_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)

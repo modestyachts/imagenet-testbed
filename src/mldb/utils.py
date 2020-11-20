@@ -2,6 +2,7 @@ import io
 import random
 from os.path import join, exists
 import torch
+import pickle
 
 from mldb import model_repository
 from mldb.s3_utils import untar_directory, default_cache_root_path

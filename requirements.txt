@@ -17,6 +17,6 @@ boto3==1.13.24
 botocore==1.16.24
 ipython==7.15.0
 click==7.1.1
-timm==0.1.28
 plotly==4.8.2
+timm==0.3.0
 git+https://github.com/tensorflow/cleverhans.git#egg=cleverhans
