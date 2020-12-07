@@ -48,20 +48,22 @@ def get_s3_client():
             session = boto3.Session(profile_name=default_profile)
         else:
             session = boto3.Session()
-        config = Config(connect_timeout=250, read_timeout=250)
-        return session.client('s3', config=config)
+        client = session.client('s3',
+                        endpoint_url='https://vasa.millennium.berkeley.edu:9000',
+                        aws_access_key_id='robustness-eval',
+                        aws_secret_access_key='rtB_HizvjHVl59_HgKjOBYZJZTbXjNRHbIsBEj5D4g4',
+                        config=Config(connect_timeout=250, read_timeout=250),
+                        verify=(pathlib.Path(__file__).parent / 'vasa_chain.cer').resolve(),
+                        region_name='us-east-1')
+        return client
 
     elif DB_CONNECTION_MODE == 'sqlite':
-        return boto3.client('s3', config=Config(signature_version=botocore.UNSIGNED))
-
-
-def get_s3_resource():
-    if default_profile in boto3.Session()._session.available_profiles:
-        session = boto3.Session(profile_name=default_profile)
-    else:
-        session = boto3.Session()
-    config = Config(connect_timeout=250, read_timeout=250)
-    return session.client('s3', config=config)
+        client = boto3.client('s3',
+                        endpoint_url='https://vasa.millennium.berkeley.edu:9000',
+                        config=Config(signature_version=botocore.UNSIGNED),
+                        verify=(pathlib.Path(__file__).parent / 'vasa_chain.cer').resolve(),
+                        region_name='us-east-1')
+        return client
 
 
 def key_exists(bucket, key):

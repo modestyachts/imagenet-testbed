@@ -97,7 +97,7 @@ You can also specify corruptions on top of your dataset. Specify `perturbation_f
 Once you've added your eval setting and have run the `eval.py` script to verify your results, you can persist the results in the db. First, add your eval setting to the db with `python db.py --add-eval-setting eval-setting`. Then, run `eval.py` with the `--db` flag: `python eval.py --gpus 0 --models resnet50 --eval-settings eval-setting --db`.
 
 
-## Downloading Testbed Data
+## Downloading Evaluation Data (this is currently offline; will be back up soon)
 Our testbed also stores all of the prediction data for each model on each evaluation setting (a total of 10^9 model predictions). This data can be retrieved with the `db.py` script by specifying a particular evaluation setting and a directory to dump the results to:
 ```
 python db.py --save-logits eval-setting /tmp/logits_dir

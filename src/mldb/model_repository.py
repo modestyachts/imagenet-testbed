@@ -21,13 +21,13 @@ from . import s3_utils
 sqlalchemy_base = sqla_declarative_base()
 
 
-DB_DUMP_URL = 'https://robustness-eval.s3-us-west-2.amazonaws.com/robustness_evaluation.db'
+DB_DUMP_URL = 'https://vasa.millennium.berkeley.edu:9000/robustness-eval/robustness_evaluation.db'
 
 
 def download_db():
     if not exists(join(s3_utils.default_cache_root_path, 'robustness_evaluation.db')):
         print('downloading database dump...')
-        subprocess.run(['wget', '-P', s3_utils.default_cache_root_path, DB_DUMP_URL], check=True)
+        subprocess.run(['wget', '-P', s3_utils.default_cache_root_path, DB_DUMP_URL, '--no-check-certificate'], check=True)
 
 
 def gen_short_uuid(num_chars=None):
