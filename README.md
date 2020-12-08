@@ -26,7 +26,7 @@ For more information on each, please see Appendices E and F in [our paper](https
 
 
 ## Viewing results
-We recommend our [interactive website](http://imagenet-testbed-2088145982.us-west-2.elb.amazonaws.com/) as a starting point to explore the data in this testbed.
+We recommend our [interactive website](http://robustness.imagenetv2.org/) as a starting point to explore the data in this testbed.
 
 Full results are [in the results csv](robustness_top1s.csv) or can be individually queried from the database via the `db.py` script:
 ```
