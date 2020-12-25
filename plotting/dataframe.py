@@ -2,6 +2,7 @@ import os
 import sys
 import pathlib
 import copy
+import re
 
 import pandas as pd
 import numpy as np
@@ -134,6 +135,42 @@ def aggregate_corruptions_with_metadata(df, df_metadata):
     df['avg_corruptions'] = df[match].mean(axis=1, skipna=False)
     match = [x for x in df_metadata.columns if any(y in x for y in ['disk', 'memory', 'stylized', 'greyscale'])]
     df_metadata['avg_corruptions_dataset_size'] = df_metadata[match].max(axis=1, skipna=False)
+
+    match = [x for x in df.columns if 'pgd' in x]
+    df['avg_pgd'] = df[match].mean(axis=1, skipna=False)
+    match = [x for x in df_metadata.columns if 'pgd' in x]
+    df_metadata['avg_pgd_dataset_size'] = df_metadata[match].max(axis=1, skipna=False)
+
+    return df, df_metadata
+
+
+def add_aggregate_corruptions_for_plotting(df, df_metadata):
+    corrs = set(x.split('.')[1]+'_'+x.split('_')[-1] for x in df.columns if 'imagenet-c' in x)
+    for corr in corrs:
+        c_name, c_type = corr.rsplit('_', 1)
+
+        col_match = df.columns.str.match(f'imagenet-c.{c_name}.*_{c_type}')
+        new_col = df.loc[:, col_match].mean(axis=1, skipna=False)
+        df[f'{c_name}_{c_type}'] = new_col
+
+        col_match = df_metadata.columns.str.match(f'imagenet-c.{c_name}.*_{c_type}_dataset_size')
+        new_col = df_metadata.loc[:, col_match].max(axis=1, skipna=False)
+        df_metadata[f'{c_name}_{c_type}_dataset_size'] = new_col
+
+    match = [x for x in df.columns if any(y in x for y in ['disk', 'memory', 'stylized', 'greyscale']) and not re.search('\d', x)]
+    df['avg_corruptions'] = df[match].mean(axis=1, skipna=False)
+    match = [x for x in df_metadata.columns if any(y in x for y in ['disk', 'memory', 'stylized', 'greyscale']) and not re.search('\d', x)]
+    df_metadata['avg_corruptions_dataset_size'] = df_metadata[match].max(axis=1, skipna=False)
+
+    match = [x for x in df.columns if 'memory' in x and not re.search('\d', x)]
+    df['avg_imagenet_c_in_memory'] = df[match].mean(axis=1, skipna=False)
+    match = [x for x in df_metadata.columns if 'memory' in x and not re.search('\d', x)]
+    df_metadata['avg_imagenet_c_in_memory_dataset_size'] = df_metadata[match].max(axis=1, skipna=False)
+
+    match = [x for x in df.columns if 'disk' in x and not re.search('\d', x)]
+    df['avg_imagenet_c_on_disk'] = df[match].mean(axis=1, skipna=False)
+    match = [x for x in df_metadata.columns if 'disk' in x and not re.search('\d', x)]
+    df_metadata['avg_imagenet_c_on_disk_dataset_size'] = df_metadata[match].max(axis=1, skipna=False)
 
     match = [x for x in df.columns if 'pgd' in x]
     df['avg_pgd'] = df[match].mean(axis=1, skipna=False)
