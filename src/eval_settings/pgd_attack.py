@@ -1,5 +1,5 @@
 import numpy as np
-import cleverhans.future.torch.attacks.projected_gradient_descent as pgd
+from cleverhans.torch.attacks.projected_gradient_descent import projected_gradient_descent as pgd
 
 from registry import registry
 from eval_settings.eval_setting_base import EvalSetting, StandardDataset
