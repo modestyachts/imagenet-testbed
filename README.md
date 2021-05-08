@@ -106,7 +106,7 @@ python db.py --save-logits eval-setting /tmp/logits_dir
 
 ## Citation
 ```
-@misc{taori2020measuring,
+@article{taori2020measuring,
     title={Measuring Robustness to Natural Distribution Shifts in Image Classification},
     author={Rohan Taori and Achal Dave and Vaishaal Shankar and Nicholas Carlini and Benjamin Recht and Ludwig Schmidt},
     booktitle={Advances in Neural Information Processing Systems (NeurIPS)},
