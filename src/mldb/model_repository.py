@@ -275,6 +275,9 @@ class ModelRepository:
         self.sessionmaker = sqla.orm.sessionmaker(bind=self.engine, expire_on_commit=False)
         self.cache_root_path = s3_utils.default_cache_root_path
         self.s3wrapper = s3_utils.S3Wrapper(bucket='robustness-eval', cache_root_path=self.cache_root_path, verbose=False)
+        if mode == "sqlite":
+            # if in public mode, prevent any writes to the global bucket (which fail due to permissions error anyways)
+            self.s3wrapper.put = lambda *args, **kwargs: None
         self.uuid_length = 10
         self.pickle_protocol = 4
 
