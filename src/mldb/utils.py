@@ -83,6 +83,12 @@ def load_model_checkpoint_bytes(model_name):
     return bio   
 
 
+def load_model_checkpoint_raw(model_name):
+    r_model = m_repo.get_model(name=model_name)
+    data = m_repo.get_checkpoint_data(r_model.final_checkpoint_uuid)
+    return data   
+
+
 def load_model_state_dict(model, name):
     bio = load_model_checkpoint_bytes(name)
     state_dict = torch.load(bio, map_location=f'cpu')

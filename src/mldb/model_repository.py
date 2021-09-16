@@ -274,10 +274,15 @@ class ModelRepository:
             create_database(self.engine.url)
         self.sessionmaker = sqla.orm.sessionmaker(bind=self.engine, expire_on_commit=False)
         self.cache_root_path = s3_utils.default_cache_root_path
-        self.s3wrapper = s3_utils.S3Wrapper(bucket='robustness-eval', cache_root_path=self.cache_root_path, verbose=False)
+        self.s3wrapper = s3_utils.DoubleBucketS3Wrapper(bucket_vasa='robustness-eval', 
+                                                        bucket_google='imagenet-testbed', 
+                                                        cache_root_path=self.cache_root_path, 
+                                                        verbose=False)
         if mode == "sqlite":
             # if in public mode, prevent any writes to the global bucket (which fail due to permissions error anyways)
             self.s3wrapper.put = lambda *args, **kwargs: None
+            self.s3wrapper.put_multiple = lambda *args, **kwargs: None
+            self.s3wrapper.upload_file = lambda *args, **kwargs: None
         self.uuid_length = 10
         self.pickle_protocol = 4
 
@@ -738,6 +743,11 @@ class ModelRepository:
         with self.session_scope() as session:
             evaluation = self.get_evaluation(uuid=evaluation_uuid, session=session, assert_exists=True)
             evaluation.completed = True
+
+    def update_evaluation_extra_info(self, evaluation_uuid, new_extra_info):
+        with self.session_scope() as session:
+            evaluation = self.get_evaluation(uuid=evaluation_uuid, session=session, assert_exists=True)
+            evaluation.extra_info = new_extra_info
 
     def get_evaluation_extra_data(self, evaluation_uuid, verbose=False):
         with self.session_scope() as session:

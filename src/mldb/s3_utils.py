@@ -42,7 +42,7 @@ def untar_directory(tar_filename, target_dir, strip=None, one_top_level=False):
     subprocess.run(['rm', tar_filename], check=True)
 
 
-def get_s3_client():
+def get_s3_client_vasa():
     if DB_CONNECTION_MODE == 'rds':
         if default_profile in boto3.Session()._session.available_profiles:
             session = boto3.Session(profile_name=default_profile)
@@ -64,6 +64,15 @@ def get_s3_client():
                         verify=(pathlib.Path(__file__).parent / 'vasa_chain.cer').resolve(),
                         region_name='us-east-1')
         return client
+
+def get_s3_client_google():
+    client = boto3.client('s3',
+                    endpoint_url='https://gresearch.storage.googleapis.com',
+                    config=Config(signature_version=botocore.UNSIGNED))
+    return client
+
+# default is vasa, but some older objects are stored on google
+get_s3_client = get_s3_client_vasa
 
 
 def key_exists(bucket, key):
@@ -335,22 +344,22 @@ def put_s3_object_bytes_with_backoff(file_bytes, key, bucket, num_tries=10, init
                 num_tries_left -= 1
 
 
-def list_all_keys(client, bucket, prefix, max_keys=None):
-    objects = client.list_objects(Bucket=bucket, Prefix=prefix, Delimiter=prefix)
-    if (objects.get('Contents') == None):
-        return []
-    keys = list(map(lambda x: x['Key'], objects.get('Contents', [] )))
-    truncated = objects['IsTruncated']
-    next_marker = objects.get('NextMarker')
-    while truncated:
-        objects = client.list_objects(Bucket=bucket, Prefix=prefix,
-                                      Delimiter=prefix, Marker=next_marker)
-        truncated = objects['IsTruncated']
-        next_marker = objects.get('NextMarker')
-        keys += list(map(lambda x: x['Key'], objects['Contents']))
-        if (max_keys is not None and len(keys) >= max_keys):
-            break
-    return list(filter(lambda x: len(x) > 0, keys))
+# def list_all_keys(client, bucket, prefix, max_keys=None):
+#     objects = client.list_objects(Bucket=bucket, Prefix=prefix, Delimiter=prefix)
+#     if (objects.get('Contents') == None):
+#         return []
+#     keys = list(map(lambda x: x['Key'], objects.get('Contents', [] )))
+#     truncated = objects['IsTruncated']
+#     next_marker = objects.get('NextMarker')
+#     while truncated:
+#         objects = client.list_objects(Bucket=bucket, Prefix=prefix,
+#                                       Delimiter=prefix, Marker=next_marker)
+#         truncated = objects['IsTruncated']
+#         next_marker = objects.get('NextMarker')
+#         keys += list(map(lambda x: x['Key'], objects['Contents']))
+#         if (max_keys is not None and len(keys) >= max_keys):
+#             break
+#     return list(filter(lambda x: len(x) > 0, keys))
 
 
 def download_s3_file_with_caching(key, local_filename, *,
@@ -512,7 +521,7 @@ class S3Wrapper:
                  skip_modification_time_check=False):
         self.bucket = bucket
         self.cache_on_local_disk = cache_on_local_disk
-        self.client = get_s3_client()
+        # self.client = get_s3_client()
 
         if self.cache_on_local_disk:
             assert cache_root_path is not None
@@ -528,8 +537,8 @@ class S3Wrapper:
         self.delay_factor = delay_factor
         self.skip_modification_time_check = skip_modification_time_check
 
-    def list_keys(self, prefix, max_keys=None):
-        return list_all_keys(self.client, self.bucket, prefix, max_keys)
+    # def list_keys(self, prefix, max_keys=None):
+    #     return list_all_keys(self.client, self.bucket, prefix, max_keys)
 
     def put(self, bytes_to_store, key, verbose=None):
         cur_verbose = default_option_if_needed(user_option=verbose, default=self.verbose)
@@ -598,3 +607,88 @@ class S3Wrapper:
     def exists(self, key):
         # print("key", key)
         return key_exists(self.bucket, key)
+
+
+class DoubleBucketS3Wrapper:
+    def __init__(self,
+                 bucket_vasa,
+                 bucket_google,
+                 cache_on_local_disk=True,
+                 cache_root_path=default_cache_root_path,
+                 verbose=False,
+                 max_num_threads=90,
+                 num_tries=5,
+                 initial_delay=1.0,
+                 delay_factor=math.sqrt(2.0),
+                 skip_modification_time_check=False):
+
+        self.vasa_s3wrapper = S3Wrapper(bucket_vasa,
+                                        cache_on_local_disk=cache_on_local_disk,
+                                        cache_root_path=cache_root_path, 
+                                        verbose=verbose, 
+                                        max_num_threads=max_num_threads,
+                                        num_tries=num_tries, 
+                                        initial_delay=initial_delay, 
+                                        delay_factor=delay_factor, 
+                                        skip_modification_time_check=skip_modification_time_check)
+
+        self.google_s3wrapper = S3Wrapper(bucket_google,
+                                          cache_on_local_disk=cache_on_local_disk,
+                                          cache_root_path=cache_root_path, 
+                                          verbose=verbose, 
+                                          max_num_threads=max_num_threads,
+                                          num_tries=num_tries, 
+                                          initial_delay=initial_delay, 
+                                          delay_factor=delay_factor, 
+                                          skip_modification_time_check=skip_modification_time_check)
+
+    def put(self, bytes_to_store, key, verbose=None):
+        global get_s3_client
+        get_s3_client = get_s3_client_vasa
+        self.vasa_s3wrapper.put(bytes_to_store, key, verbose)
+
+    def put_multiple(self, data, verbose=None, callback=None):
+        global get_s3_client
+        get_s3_client = get_s3_client_vasa
+        self.vasa_s3wrapper.put_multiple(data, verbose, callback)
+
+    def upload_file(self, filename, key, verbose=None):
+        global get_s3_client
+        get_s3_client = get_s3_client_vasa
+        self.vasa_s3wrapper.upload_file(filename, key, verbose)
+
+    def download_file(self, key, filename, verbose=None, skip_modification_time_check=None):
+        global get_s3_client
+        get_s3_client = get_s3_client_vasa
+        if self.vasa_s3wrapper.exists(key):
+            self.vasa_s3wrapper.download_file(key, filename, verbose, skip_modification_time_check)
+            return
+        get_s3_client = get_s3_client_google
+        if self.google_s3wrapper.exists(key):
+            self.google_s3wrapper.download_file(key, filename, verbose, skip_modification_time_check)
+            get_s3_client = get_s3_client_vasa
+            return
+        raise Exception(f'File with key {key} not found!')
+
+    def get(self, key, verbose=None, skip_modification_time_check=None):
+        global get_s3_client
+        get_s3_client = get_s3_client_vasa
+        if self.vasa_s3wrapper.exists(key):
+            return self.vasa_s3wrapper.get(key, verbose, skip_modification_time_check)
+        get_s3_client = get_s3_client_google
+        if self.google_s3wrapper.exists(key):
+            return_value = self.google_s3wrapper.get(key, verbose, skip_modification_time_check)
+            get_s3_client = get_s3_client_vasa
+            return return_value
+        raise Exception(f'Data with key {key} not found!')
+
+    def exists(self, key):
+        global get_s3_client
+        get_s3_client = get_s3_client_vasa
+        if self.vasa_s3wrapper.exists(key):
+            return True
+        get_s3_client = get_s3_client_google
+        if self.google_s3wrapper.exists(key):
+            get_s3_client = get_s3_client_vasa
+            return True
+        return False

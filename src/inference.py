@@ -11,6 +11,7 @@ from torchvision import transforms
 
 from dataloader import CustomImageFolder, DistributedSampler
 from registry import registry
+from models.low_accuracy import TimmFeatures, IdentityFeatures, SklearnCLF, Simple1NN
 
 
 def main(args):
@@ -35,10 +36,12 @@ def main(args):
 
     metrics = py_eval_setting.get_metrics(logits, targets, image_paths, py_model)
 
-    with open(join(args.logdir, 'metrics.json'), 'w') as outfile:
-        json.dump(metrics, outfile)
+    with open(join(args.logdir, 'metrics.json'), 'w') as f:
+        json.dump(metrics, f)
     torch.save(logits, join(args.logdir, 'logits.pt'))
     torch.save(targets, join(args.logdir, 'targets.pt'))
+    with open(join(args.logdir, 'image_paths.pkl'), 'wb') as f:
+        np.save(f, image_paths)
 
     if args.db:
         utils.store_evaluation(py_model, py_eval_setting, metrics, logits)
@@ -76,7 +79,7 @@ def main_worker(gpu, args, results_dict):
 
     val_sampler = DistributedSampler(val_dataset, num_replicas=args.num_gpus, rank=gpu, shuffle=False)
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, 
-                            num_workers=args.workers, pin_memory=True, sampler=val_sampler)
+                            num_workers=args.workers, pin_memory=False, sampler=val_sampler)
     
     logits, targets, image_paths, idxs = validate(gpu, args, val_loader, model, gpu_perturbation_fn)
     results_dict[gpu] = {'logits': logits, 'targets': targets, 'image_paths': image_paths, 'idxs': idxs}

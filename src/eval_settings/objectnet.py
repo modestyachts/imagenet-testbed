@@ -65,9 +65,19 @@ registry.add_eval_setting(
 idx_subsample_list = [range(x*50, (x+1)*50) for x in class_sublist]
 idx_subsample_list = sorted([item for sublist in idx_subsample_list for item in sublist])
 
-def accuracy_topk_subselected(logits, targets):
-    targets = torch.tensor([class_sublist.index(x) for x in targets])
-    return accuracy_topk(logits, targets)
+folder_map_sublisted = {k: [class_sublist.index(x) for x in v] for k, v in folder_to_ids.items()}
+objectnet_idx_to_imgnet_idxs = {idx: folder_map_sublisted[name] for idx, name in enumerate(sorted(folder_map_sublisted))}
+imgnet_idx_to_objectnet_idx =  {}
+for objectnet_idx, imgnet_idxs in objectnet_idx_to_imgnet_idxs.items():
+	for imgnet_idx in imgnet_idxs:
+		imgnet_idx_to_objectnet_idx[imgnet_idx] = objectnet_idx
+
+def accuracy_topk_subselected_and_collapsed(logits, targets):
+    collapsed_logits = torch.zeros((logits.size(0), len(folder_map_sublisted)), dtype=logits.dtype, device=logits.device)
+    for objectnet_idx, imgnet_idxs in objectnet_idx_to_imgnet_idxs.items():
+        collapsed_logits[:, objectnet_idx] = logits[:, imgnet_idxs].max(dim=1).values
+    targets = torch.tensor([imgnet_idx_to_objectnet_idx[class_sublist.index(x)] for x in targets])
+    return accuracy_topk(collapsed_logits, targets)
 
 registry.add_eval_setting(
     EvalSetting(
@@ -76,6 +86,6 @@ registry.add_eval_setting(
         size = 6250,
         class_sublist = class_sublist,
         idx_subsample_list = idx_subsample_list,
-        metrics_fn = accuracy_topk_subselected,
+        metrics_fn = accuracy_topk_subselected_and_collapsed,
     )
 )

@@ -6,7 +6,11 @@ class ModelTypes(Enum):
     LP_ADV = ('Lp adversarially robust', 'tab:olive')
     ROBUST_INTV = ('Other robustness intervention', 'tab:brown')
     MORE_DATA = ('Trained with more data', 'tab:green')
-
+    RANDOM_FEATURES = ('Random Features', 'tab:yellow')	
+    LINEAR_PIXELS = ('Linear Classifier on Pixels', 'tab:orange')	
+    RANDOM_FORESTS = ('Random Forests', 'tab:pink')
+    NEAREST_NEIGHBORS = ('Nearest Neighbors', 'tab:purple')
+    LOW_ACCURACY_CNN = ('Low Accuracy CNN', 'tab:cyan')
 
 model_types_map = {
 'BiT-M-R50x1-ILSVRC2012': ModelTypes.MORE_DATA,
@@ -104,6 +108,8 @@ model_types_map = {
 'resnet101_lpf5': ModelTypes.ROBUST_INTV,
 'resnet152': ModelTypes.STANDARD,
 'resnet152-imagenet11k': ModelTypes.MORE_DATA,
+'resnet152_3x_simclrv2_linear_probe_tf_port': ModelTypes.STANDARD,
+'resnet152_3x_simclrv2_finetuned_100pct_tf_port': ModelTypes.STANDARD,
 'resnet18': ModelTypes.STANDARD,
 'resnet18-rotation-nocrop_40': ModelTypes.ROBUST_INTV,
 'resnet18-rotation-random_30': ModelTypes.ROBUST_INTV,
@@ -139,20 +145,21 @@ model_types_map = {
 'resnet50_adv-train-free': ModelTypes.LP_ADV,
 'resnet50_augmix': ModelTypes.ROBUST_INTV,
 'resnet50_aws_baseline': ModelTypes.STANDARD,
+'resnet50_clip_zeroshot': ModelTypes.MORE_DATA,
 'resnet50_cutmix': ModelTypes.ROBUST_INTV,
 'resnet50_cutout': ModelTypes.ROBUST_INTV,
 'resnet50_deepaugment': ModelTypes.ROBUST_INTV,
 'resnet50_deepaugment_augmix': ModelTypes.ROBUST_INTV,
 'resnet50_feature_cutmix': ModelTypes.ROBUST_INTV,
 'resnet50_imagenet_100percent_batch64_original_images': ModelTypes.STANDARD,
-'resnet50_imagenet_subsample_125_classes_batch64_original_images': ModelTypes.STANDARD,
-'resnet50_imagenet_subsample_1_of_16_batch64_original_images': ModelTypes.STANDARD,
-'resnet50_imagenet_subsample_1_of_2_batch64_original_images': ModelTypes.STANDARD,
-'resnet50_imagenet_subsample_1_of_32_batch64_original_images': ModelTypes.STANDARD,
-'resnet50_imagenet_subsample_1_of_4_batch64_original_images': ModelTypes.STANDARD,
-'resnet50_imagenet_subsample_1_of_8_batch64_original_images': ModelTypes.STANDARD,
-'resnet50_imagenet_subsample_250_classes_batch64_original_images': ModelTypes.STANDARD,
-'resnet50_imagenet_subsample_500_classes_batch64_original_images': ModelTypes.STANDARD,
+'resnet50_imagenet_subsample_125_classes_batch64_original_images': ModelTypes.LOW_ACCURACY_CNN,
+'resnet50_imagenet_subsample_1_of_16_batch64_original_images': ModelTypes.LOW_ACCURACY_CNN,
+'resnet50_imagenet_subsample_1_of_2_batch64_original_images': ModelTypes.LOW_ACCURACY_CNN,
+'resnet50_imagenet_subsample_1_of_32_batch64_original_images': ModelTypes.LOW_ACCURACY_CNN,
+'resnet50_imagenet_subsample_1_of_4_batch64_original_images': ModelTypes.LOW_ACCURACY_CNN,
+'resnet50_imagenet_subsample_1_of_8_batch64_original_images': ModelTypes.LOW_ACCURACY_CNN,
+'resnet50_imagenet_subsample_250_classes_batch64_original_images': ModelTypes.LOW_ACCURACY_CNN,
+'resnet50_imagenet_subsample_500_classes_batch64_original_images': ModelTypes.LOW_ACCURACY_CNN,
 'resnet50_l2_eps3_robust': ModelTypes.LP_ADV,
 'resnet50_linf_eps4_robust': ModelTypes.LP_ADV,
 'resnet50_linf_eps8_robust': ModelTypes.LP_ADV,
@@ -160,7 +167,11 @@ model_types_map = {
 'resnet50_lpf3': ModelTypes.ROBUST_INTV,
 'resnet50_lpf5': ModelTypes.ROBUST_INTV,
 'resnet50_mixup': ModelTypes.ROBUST_INTV,
+'resnet50_simclrv2_linear_probe_tf_port': ModelTypes.STANDARD,
+'resnet50_simclrv2_finetuned_100pct_tf_port': ModelTypes.STANDARD,
+'resnet50_simsiam': ModelTypes.STANDARD,
 'resnet50_ssl': ModelTypes.MORE_DATA,
+'resnet50_swav': ModelTypes.STANDARD,
 'resnet50_swsl': ModelTypes.MORE_DATA,
 'resnet50_trained_on_SIN': ModelTypes.ROBUST_INTV,
 'resnet50_trained_on_SIN_and_IN': ModelTypes.ROBUST_INTV,
@@ -201,6 +212,7 @@ model_types_map = {
 'shufflenet_v2_x1_0': ModelTypes.STANDARD,
 'squeezenet1_0': ModelTypes.STANDARD,
 'squeezenet1_1': ModelTypes.STANDARD,
+'vit_b_32_clip_zeroshot': ModelTypes.MORE_DATA,
 'vgg11': ModelTypes.STANDARD,
 'vgg11_bn': ModelTypes.STANDARD,
 'vgg13': ModelTypes.STANDARD,
@@ -224,20 +236,41 @@ model_types_map = {
 'vit_large_patch32_384': ModelTypes.MORE_DATA,
 'wide_resnet101_2': ModelTypes.STANDARD,
 'wide_resnet50_2': ModelTypes.STANDARD,
-'xception': ModelTypes.STANDARD
+'xception': ModelTypes.STANDARD,
+'resnet50_lstsq': ModelTypes.RANDOM_FEATURES,	
+'identity32_lstsq': ModelTypes.LINEAR_PIXELS,	
+'identity32_random_forests': ModelTypes.RANDOM_FORESTS,
+'identity32_one_nn': ModelTypes.NEAREST_NEIGHBORS
 }
 
+for i in range(100):
+    model_types_map[f"resnet18_50k_{i}_epochs"] =  ModelTypes.LOW_ACCURACY_CNN
+
+for i in range(50):
+    model_types_map[f"resnet18_100k_{i}_epochs"] =  ModelTypes.LOW_ACCURACY_CNN
+
+for i in range(10):
+    model_types_map[f"resnet101_{i}_epochs"] =  ModelTypes.LOW_ACCURACY_CNN
 
 class NatModelTypes(Enum):
     STANDARD = ('Standard training', 'tab:blue')
     ROBUST_INTV = ('Robustness intervention', 'tab:brown')
     MORE_DATA = ('Trained with more data', 'tab:green')
-
+    RANDOM_FEATURES = ('Random Features', 'tab:olive')	
+    LINEAR_PIXELS = ('Linear Classifier on Pixels', 'tab:orange')	
+    RANDOM_FORESTS = ('Random Forests', 'tab:pink')
+    NEAREST_NEIGHBORS = ('Nearest Neighbors', 'tab:purple')
+    LOW_ACCURACY_CNN = ('Low Accuracy CNN', 'tab:cyan')
 
 mapper = {
 	ModelTypes.STANDARD: NatModelTypes.STANDARD,
 	ModelTypes.LP_ADV: NatModelTypes.ROBUST_INTV,
 	ModelTypes.ROBUST_INTV: NatModelTypes.ROBUST_INTV,
 	ModelTypes.MORE_DATA: NatModelTypes.MORE_DATA,	
+	ModelTypes.RANDOM_FEATURES: NatModelTypes.RANDOM_FEATURES,	
+	ModelTypes.LINEAR_PIXELS: NatModelTypes.LINEAR_PIXELS,	
+	ModelTypes.RANDOM_FORESTS: NatModelTypes.RANDOM_FORESTS,	
+	ModelTypes.NEAREST_NEIGHBORS : NatModelTypes.NEAREST_NEIGHBORS,
+	ModelTypes.LOW_ACCURACY_CNN : NatModelTypes.LOW_ACCURACY_CNN
 }
 nat_model_types_map = {k: mapper[v] for k, v in model_types_map.items()}

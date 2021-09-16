@@ -1,5 +1,5 @@
-torch>=1.7.1
-torchvision>=0.8.2
+torch==1.7.1
+torchvision==0.8.2
 pretrainedmodels>=0.7.4
 efficientnet-pytorch>=0.6.3
 pandas>=1.0.4
@@ -19,7 +19,8 @@ botocore>=1.16.24
 ipython>=7.15.0
 click>=7.1.1
 plotly>=4.8.2
-timm>=0.3.0
+timm>=0.4.12
 dill>=0.3.3
+scikit-learn==0.23.2
 git+https://github.com/tensorflow/cleverhans.git#egg=cleverhans
 git+https://github.com/openai/CLIP.git

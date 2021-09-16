@@ -60,7 +60,7 @@ def accuracy_topk(logits, targets, topk=(1, 5)):
 
     res = {}
     for k in topk:
-        correct_k = correct[:k].view(-1).float().sum(0, keepdim=True)
+        correct_k = correct[:k].contiguous().view(-1).float().sum(0, keepdim=True)
         res[f'top{k}'] = correct_k.mul_(100.0 / batch_size).item()
     return res
 

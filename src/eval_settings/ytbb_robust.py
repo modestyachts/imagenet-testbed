@@ -447,7 +447,9 @@ def validate_ytbb_robust(logits, targets, image_paths, py_model, merge_op='max')
     rev_ytbb_class_index = dict([(y, int(x)) for (x, y) in ytbb_class_index.items()])
 
     def project_imagenet_predictions_ytbb(preds, merge_op='max'):
-        new_preds = np.zeros((preds.shape[0], 24))
+        #new_preds = np.zeros((preds.shape[0], 24))
+        logging.info("float -inf fix in...")
+        new_preds = np.ones((preds.shape[0], 24))*float('-inf')
         for k,v in REV_CLASS_IDX_MAP.items():
             v = list(map(lambda x: CLASS_IDX_LIST.index(x), v))
             if (merge_op == 'mean'):
@@ -524,7 +526,8 @@ def validate_val_on_ytbb_robust_classes(logits, targets, image_paths, py_model, 
 
 
     def project_imagenet_predictions_ytbb(preds, merge_op='max'):
-        new_preds = np.zeros((preds.shape[0], 24))
+        #new_preds = np.zeros((preds.shape[0], 24))
+        new_preds = np.ones((preds.shape[0], 24))*float('-inf')
         for k,v in REV_CLASS_IDX_MAP.items():
             v = list(map(lambda x: CLASS_IDX_LIST.index(x), v))
             if (merge_op == 'mean'):

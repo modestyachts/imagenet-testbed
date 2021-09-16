@@ -2,7 +2,7 @@
 This repository a large testbed to examine the robustness of various ImageNet classifers on many synthetic and natural distribution shifts. 
 It is associated with the paper [Measuring Robustness to Natural Distribution Shifts in Image Classification](https://modestyachts.github.io/imagenet-testbed/).
 
-This testbed currently supports 204 ImageNet models and 213 different evaluation settings. All the evaluation code and data used to generate the results from the paper and website can be found here. **More importantly, this repository is designed to be extremely simple to add additional models and datasets, so that future researchers may leverage this existing evalation framework to compare and evaluate their progress.**
+This testbed currently supports 200+ ImageNet models and 200+ different evaluation settings. All the evaluation code and data used to generate the results from the paper and website can be found here. **More importantly, this repository is designed to be extremely simple to add additional models and datasets, so that future researchers may leverage this existing evalation framework to compare and evaluate their progress.**
 
 
 ## Installation
@@ -97,7 +97,7 @@ You can also specify corruptions on top of your dataset. Specify `perturbation_f
 Once you've added your eval setting and have run the `eval.py` script to verify your results, you can persist the results in the db. First, add your eval setting to the db with `python db.py --add-eval-setting eval-setting`. Then, run `eval.py` with the `--db` flag: `python eval.py --gpus 0 --models resnet50 --eval-settings eval-setting --db`.
 
 
-## Downloading Evaluation Data (this is currently offline; will be back up soon)
+## Downloading Evaluation Data
 Our testbed also stores all of the prediction data for each model on each evaluation setting (a total of 10^9 model predictions). This data can be retrieved with the `db.py` script by specifying a particular evaluation setting and a directory to dump the results to:
 ```
 python db.py --save-logits eval-setting /tmp/logits_dir
@@ -113,3 +113,11 @@ python db.py --save-logits eval-setting /tmp/logits_dir
     year={2020},
     url={https://arxiv.org/abs/2007.00644},
 }
+```
+
+# Updates
+8/13/21: Updated `ytbb-robust`, `val-on-ytbb-robust-classes` due to a slight bug in how accuracies were previously computed, resulting in erratic evaluations for certain models. The code was fixed along with the stored evaluation data.
+
+7/29/21: Added a bunch of low accuracy models (linear models, random forests, & low-accuracy CNNs) in accordance with the paper [Accuracy on the Line: on the Strong Correlation Between Out-of-Distribution and In-Distribution Generalization](https://arxiv.org/abs/2107.04649).
+
+7/29/21: Updated `val-on-objectnet-classes` due to a slight bug in how accuracies were previously computed, resulting in them being recorded ~1% lower than normal. The code was fixed along with the stored evaluation data.
