@@ -79,7 +79,7 @@ def key_exists(bucket, key):
     # Return true if a key exists in s3 bucket
     # TODO: return None from the get functions if the key doesn't exist?
     #       (this would avoid one round-trip to S3)
-    client = get_s3_client()
+    client = get_s3_client_google()
     try:
         client.head_object(Bucket=bucket, Key=key)
         return True

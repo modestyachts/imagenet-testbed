@@ -27,8 +27,11 @@ DB_DUMP_URL = 'https://vasa.millennium.berkeley.edu:9000/robustness-eval/robustn
 def download_db():
     if not exists(join(s3_utils.default_cache_root_path, 'robustness_evaluation.db')):
         print('downloading database dump...')
-        subprocess.run(['wget', '-P', s3_utils.default_cache_root_path, DB_DUMP_URL, '--no-check-certificate'], check=True)
-
+        try:
+            subprocess.run(['wget', '-P', s3_utils.default_cache_root_path, DB_DUMP_URL, '--no-check-certificate'], check=True)
+        except:
+            import gdown
+            gdown.download("https://drive.google.com/uc?id=17XOxNxRqB_xMcHsAoewNmtuzKtdlpmzV", join(s3_utils.default_cache_root_path, 'robustness_evaluation.db'), quiet=False)
 
 def gen_short_uuid(num_chars=None):
     num = uuid.uuid4().int

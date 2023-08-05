@@ -22,5 +22,6 @@ plotly>=4.8.2
 timm>=0.4.12
 dill>=0.3.3
 scikit-learn==0.23.2
+gdown
 git+https://github.com/tensorflow/cleverhans.git#egg=cleverhans
 git+https://github.com/openai/CLIP.git
