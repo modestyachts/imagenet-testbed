@@ -74,22 +74,28 @@ def get_s3_client_google():
 # default is vasa, but some older objects are stored on google
 get_s3_client = get_s3_client_vasa
 
-
 def key_exists(bucket, key):
     # Return true if a key exists in s3 bucket
     # TODO: return None from the get functions if the key doesn't exist?
     #       (this would avoid one round-trip to S3)
     client = get_s3_client()
+
     try:
         client.head_object(Bucket=bucket, Key=key)
         return True
-    except botocore.exceptions.ClientError as exc:
-        if exc.response['Error']['Code'] != '404':
+    except (botocore.exceptions.EndpointConnectionError, botocore.exceptions.SSLError, botocore.exceptions.ClientError):
+        try:
+            client = get_s3_client_google()
+            client.head_object(Bucket=bucket, Key=key)
+            return True
+        except botocore.exceptions.ClientError as exc:
+            if exc.response['Error']['Code'] != '404':
+                raise
+            return False
+        except:
             raise
-        return False
     except:
         raise
-
 
 def get_s3_object_bytes_parallel(keys, *,
                                  bucket,
